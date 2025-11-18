@@ -40,17 +40,24 @@ export default function CreatePortfolio() {
     setStep('processing');
 
     try {
+      console.log("Uploading files...");
       const [resumeUpload, photoUpload] = await Promise.all([
         base44.integrations.Core.UploadFile({ file: resumeFile }),
         base44.integrations.Core.UploadFile({ file: photoFile })
       ]);
 
+      console.log("Files uploaded:", resumeUpload, photoUpload);
+      console.log("Getting schema...");
       const schema = await base44.entities.Salesperson.schema();
+      console.log("Schema:", schema);
       
+      console.log("Extracting data from resume...");
       const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
         file_url: resumeUpload.file_url,
         json_schema: schema
       });
+
+      console.log("Extract result:", extractResult);
 
       if (extractResult.status === 'success') {
         const data = {
@@ -59,10 +66,12 @@ export default function CreatePortfolio() {
           resume_url: resumeUpload.file_url,
           template: selectedTemplate
         };
+        console.log("Extracted data:", data);
         setExtractedData(data);
         setStep('template');
       } else {
-        alert("Failed to extract data from resume. Please try again.");
+        console.error("Extraction failed:", extractResult);
+        alert("Failed to extract data from resume: " + (extractResult.details || "Unknown error"));
         setStep('upload');
       }
     } catch (error) {
