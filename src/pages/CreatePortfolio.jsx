@@ -93,24 +93,29 @@ export default function CreatePortfolio() {
         }
       };
       
-      console.log("Extracting data from resume using AI...");
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Extract all information from this resume/CV and structure it according to the provided schema. Be thorough and extract all details including work experience, skills, education, achievements, contact information, etc.`,
-        file_urls: [resumeUpload.file_url],
-        response_json_schema: schema
+      console.log("Extracting data from resume...");
+      const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
+        file_url: resumeUpload.file_url,
+        json_schema: schema
       });
 
-      console.log("Extracted result:", result);
+      console.log("Extract result:", extractResult);
 
-      const data = {
-        ...result,
-        photo_url: photoUpload.file_url,
-        resume_url: resumeUpload.file_url,
-        template: selectedTemplate
-      };
-      console.log("Final data:", data);
-      setExtractedData(data);
-      setStep('template');
+      if (extractResult.status === 'success') {
+        const data = {
+          ...extractResult.output,
+          photo_url: photoUpload.file_url,
+          resume_url: resumeUpload.file_url,
+          template: selectedTemplate
+        };
+        console.log("Extracted data:", data);
+        setExtractedData(data);
+        setStep('template');
+      } else {
+        console.error("Extraction failed:", extractResult);
+        alert("Failed to extract data from resume: " + (extractResult.details || "Unknown error"));
+        setStep('upload');
+      }
     } catch (error) {
       console.error("Error processing files:", error);
       alert("Error processing files: " + error.message);
