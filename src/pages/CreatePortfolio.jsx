@@ -47,9 +47,43 @@ export default function CreatePortfolio() {
       ]);
 
       console.log("Files uploaded:", resumeUpload, photoUpload);
-      console.log("Getting schema...");
-      const schema = await base44.entities.Salesperson.schema();
-      console.log("Schema:", schema);
+      
+      const schema = {
+        type: "object",
+        properties: {
+          full_name: { type: "string", description: "Full name of the salesperson" },
+          title: { type: "string", description: "Current job title" },
+          email: { type: "string", format: "email", description: "Contact email" },
+          phone: { type: "string", description: "Contact phone number" },
+          summary: { type: "string", description: "Professional summary/bio" },
+          experience: {
+            type: "array",
+            description: "Work experience",
+            items: {
+              type: "object",
+              properties: {
+                company: { type: "string" },
+                position: { type: "string" },
+                duration: { type: "string" },
+                achievements: { type: "array", items: { type: "string" } }
+              }
+            }
+          },
+          skills: { type: "array", items: { type: "string" }, description: "Key skills and competencies" },
+          achievements: { type: "array", items: { type: "string" }, description: "Notable achievements and awards" },
+          education: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                degree: { type: "string" },
+                institution: { type: "string" },
+                year: { type: "string" }
+              }
+            }
+          }
+        }
+      };
       
       console.log("Extracting data from resume...");
       const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
