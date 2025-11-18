@@ -4,17 +4,33 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { Plus, Users, TrendingUp, Award, ExternalLink } from "lucide-react";
+import { Plus, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import PortfolioCard from "../components/dashboard/PortfolioCard";
 import StatsOverview from "../components/dashboard/StatsOverview";
 
 export default function Dashboard() {
-  const { data: salespeople, isLoading } = useQuery({
+  const { data: salespeople, isLoading, error } = useQuery({
     queryKey: ['salespeople'],
     queryFn: () => base44.entities.Salesperson.list('-created_date'),
     initialData: [],
+    retry: 2,
+    refetchOnWindowFocus: false,
   });
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 flex items-center justify-center p-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">Unable to load portfolios</h2>
+          <p className="text-slate-600 mb-4">Please refresh the page to try again</p>
+          <Button onClick={() => window.location.reload()} className="bg-slate-900 hover:bg-slate-800">
+            Refresh Page
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">

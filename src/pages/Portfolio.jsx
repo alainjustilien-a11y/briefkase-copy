@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { base44 } from "@/api/base44Client";
 import { useQuery } from "@tanstack/react-query";
 import { Mail, Phone, Award, Briefcase, GraduationCap, Target, ExternalLink } from "lucide-react";
@@ -9,27 +9,38 @@ export default function Portfolio() {
   const urlParams = new URLSearchParams(window.location.search);
   const personId = urlParams.get('id');
 
-  const { data: person, isLoading } = useQuery({
+  const { data: person, isLoading, error } = useQuery({
     queryKey: ['salesperson', personId],
     queryFn: async () => {
       const people = await base44.entities.Salesperson.list();
       return people.find(p => p.id === personId);
     },
     enabled: !!personId,
+    retry: 2,
+    refetchOnWindowFocus: false,
   });
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
-        <div className="animate-pulse text-white text-xl">Loading portfolio...</div>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-400 mx-auto mb-4" />
+          <div className="text-white text-xl">Loading portfolio...</div>
+        </div>
       </div>
     );
   }
 
-  if (!person) {
+  if (error || !person) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
-        <div className="text-white text-xl">Portfolio not found</div>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-white mb-2">Portfolio not found</h2>
+          <p className="text-slate-300 mb-4">The portfolio you're looking for doesn't exist</p>
+          <Button onClick={() => window.location.href = '/'} className="bg-amber-400 text-slate-900 hover:bg-amber-500">
+            Go to Dashboard
+          </Button>
+        </div>
       </div>
     );
   }

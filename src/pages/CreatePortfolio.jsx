@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ArrowLeft, Upload, Sparkles, CheckCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import FileUpload from "../components/create/FileUpload";
 import ProcessingState from "../components/create/ProcessingState";
 import PortfolioPreview from "../components/create/PortfolioPreview";
@@ -26,6 +26,10 @@ export default function CreatePortfolio() {
       queryClient.invalidateQueries({ queryKey: ['salespeople'] });
       navigate(createPageUrl("Dashboard"));
     },
+    onError: (error) => {
+      toast.error("Failed to save portfolio. Please try again.");
+      console.error("Error saving portfolio:", error);
+    }
   });
 
   const handleProcess = async () => {
@@ -55,9 +59,14 @@ export default function CreatePortfolio() {
         };
         setExtractedData(data);
         setStep('preview');
+      } else {
+        toast.error("Failed to extract data from resume. Please try again.");
+        setStep('upload');
       }
     } catch (error) {
       console.error("Error processing files:", error);
+      toast.error("Error processing files. Please try again.");
+      setStep('upload');
     }
     
     setProcessing(false);
