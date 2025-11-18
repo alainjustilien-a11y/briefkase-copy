@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import FileUpload from "../components/create/FileUpload";
 import ProcessingState from "../components/create/ProcessingState";
+import TemplateSelector from "../components/create/TemplateSelector";
 import PortfolioPreview from "../components/create/PortfolioPreview";
 
 export default function CreatePortfolio() {
@@ -18,6 +19,7 @@ export default function CreatePortfolio() {
   const [photoFile, setPhotoFile] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [extractedData, setExtractedData] = useState(null);
+  const [selectedTemplate, setSelectedTemplate] = useState('executive');
   const [step, setStep] = useState('upload');
 
   const createMutation = useMutation({
@@ -55,10 +57,11 @@ export default function CreatePortfolio() {
         const data = {
           ...extractResult.output,
           photo_url: photoUpload.file_url,
-          resume_url: resumeUpload.file_url
+          resume_url: resumeUpload.file_url,
+          template: selectedTemplate
         };
         setExtractedData(data);
-        setStep('preview');
+        setStep('template');
       } else {
         toast.error("Failed to extract data from resume. Please try again.");
         setStep('upload');
@@ -72,13 +75,28 @@ export default function CreatePortfolio() {
     setProcessing(false);
   };
 
+  const handleTemplateSelect = (template) => {
+    setSelectedTemplate(template);
+    setExtractedData(prev => ({ ...prev, template }));
+    setStep('preview');
+  };
+
   const handleSave = (editedData) => {
-    createMutation.mutate(editedData);
+    createMutation.mutate({ ...editedData, template: selectedTemplate });
+  };
+
+  const getStepTitle = () => {
+    switch(step) {
+      case 'upload': return 'Upload Files';
+      case 'template': return 'Choose Template';
+      case 'preview': return 'Review & Edit';
+      default: return 'Create Portfolio';
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 py-12 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -93,11 +111,20 @@ export default function CreatePortfolio() {
             Back to Dashboard
           </Button>
           <h1 className="text-4xl font-bold text-slate-900 tracking-tight mb-2">
-            Create Portfolio
+            {getStepTitle()}
           </h1>
           <p className="text-slate-600 text-lg">
-            Upload resume and photo to generate a stunning portfolio
+            {step === 'upload' && 'Upload resume and photo to generate a stunning portfolio'}
+            {step === 'template' && 'Select a design template that matches your style'}
+            {step === 'preview' && 'Review and customize your portfolio details'}
           </p>
+
+          {/* Progress Indicator */}
+          <div className="flex items-center gap-2 mt-6">
+            <div className={`flex-1 h-2 rounded-full transition-all ${step === 'upload' || step === 'processing' ? 'bg-slate-900' : 'bg-slate-300'}`} />
+            <div className={`flex-1 h-2 rounded-full transition-all ${step === 'template' ? 'bg-slate-900' : 'bg-slate-300'}`} />
+            <div className={`flex-1 h-2 rounded-full transition-all ${step === 'preview' ? 'bg-slate-900' : 'bg-slate-300'}`} />
+          </div>
         </motion.div>
 
         <AnimatePresence mode="wait">
@@ -116,11 +143,19 @@ export default function CreatePortfolio() {
             <ProcessingState />
           )}
 
+          {step === 'template' && (
+            <TemplateSelector
+              selectedTemplate={selectedTemplate}
+              onSelect={handleTemplateSelect}
+              previewData={extractedData}
+            />
+          )}
+
           {step === 'preview' && extractedData && (
             <PortfolioPreview
               data={extractedData}
               onSave={handleSave}
-              onBack={() => setStep('upload')}
+              onBack={() => setStep('template')}
               isSaving={createMutation.isPending}
             />
           )}
