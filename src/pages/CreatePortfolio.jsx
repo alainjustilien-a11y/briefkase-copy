@@ -6,7 +6,6 @@ import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
 import FileUpload from "../components/create/FileUpload";
 import ProcessingState from "../components/create/ProcessingState";
 import TemplateSelector from "../components/create/TemplateSelector";
@@ -29,8 +28,8 @@ export default function CreatePortfolio() {
       navigate(createPageUrl("Dashboard"));
     },
     onError: (error) => {
-      toast.error("Failed to save portfolio. Please try again.");
       console.error("Error saving portfolio:", error);
+      alert("Failed to save portfolio. Please try again.");
     }
   });
 
@@ -63,12 +62,12 @@ export default function CreatePortfolio() {
         setExtractedData(data);
         setStep('template');
       } else {
-        toast.error("Failed to extract data from resume. Please try again.");
+        alert("Failed to extract data from resume. Please try again.");
         setStep('upload');
       }
     } catch (error) {
       console.error("Error processing files:", error);
-      toast.error("Error processing files. Please try again.");
+      alert("Error processing files: " + error.message);
       setStep('upload');
     }
     
@@ -88,6 +87,7 @@ export default function CreatePortfolio() {
   const getStepTitle = () => {
     switch(step) {
       case 'upload': return 'Upload Files';
+      case 'processing': return 'Processing...';
       case 'template': return 'Choose Template';
       case 'preview': return 'Review & Edit';
       default: return 'Create Portfolio';
@@ -115,6 +115,7 @@ export default function CreatePortfolio() {
           </h1>
           <p className="text-slate-600 text-lg">
             {step === 'upload' && 'Upload resume and photo to generate a stunning portfolio'}
+            {step === 'processing' && 'Extracting information from your resume...'}
             {step === 'template' && 'Select a design template that matches your style'}
             {step === 'preview' && 'Review and customize your portfolio details'}
           </p>
@@ -130,6 +131,7 @@ export default function CreatePortfolio() {
         <AnimatePresence mode="wait">
           {step === 'upload' && (
             <FileUpload
+              key="upload"
               resumeFile={resumeFile}
               setResumeFile={setResumeFile}
               photoFile={photoFile}
@@ -140,11 +142,12 @@ export default function CreatePortfolio() {
           )}
 
           {step === 'processing' && (
-            <ProcessingState />
+            <ProcessingState key="processing" />
           )}
 
-          {step === 'template' && (
+          {step === 'template' && extractedData && (
             <TemplateSelector
+              key="template"
               selectedTemplate={selectedTemplate}
               onSelect={handleTemplateSelect}
               previewData={extractedData}
@@ -153,6 +156,7 @@ export default function CreatePortfolio() {
 
           {step === 'preview' && extractedData && (
             <PortfolioPreview
+              key="preview"
               data={extractedData}
               onSave={handleSave}
               onBack={() => setStep('template')}

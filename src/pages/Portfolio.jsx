@@ -40,6 +40,10 @@ export default function Portfolio() {
       queryClient.invalidateQueries({ queryKey: ['salesperson', personId] });
       setShowTemplateSwitcher(false);
     },
+    onError: (error) => {
+      console.error("Error updating template:", error);
+      alert("Failed to update template. Please try again.");
+    }
   });
 
   if (isLoading) {
@@ -67,7 +71,23 @@ export default function Portfolio() {
     );
   }
 
-  const SelectedTemplate = templates[person.template || 'executive'];
+  const templateKey = person.template || 'executive';
+  const SelectedTemplate = templates[templateKey];
+
+  if (!SelectedTemplate) {
+    console.error('Template not found:', templateKey);
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Template Error</h2>
+          <p className="mb-4">Template "{templateKey}" not found</p>
+          <Button onClick={() => updateTemplateMutation.mutate('executive')}>
+            Use Default Template
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -78,7 +98,7 @@ export default function Portfolio() {
       
       {showTemplateSwitcher && (
         <TemplateSwitcher
-          currentTemplate={person.template || 'executive'}
+          currentTemplate={templateKey}
           onSelect={(template) => updateTemplateMutation.mutate(template)}
           onClose={() => setShowTemplateSwitcher(false)}
           person={person}
