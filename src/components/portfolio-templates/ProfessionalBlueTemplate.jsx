@@ -137,6 +137,124 @@ export default function ProfessionalBlueTemplate({ person, onChangeTemplate }) {
         </section>
       )}
 
+      {/* 30-60-90 Day Plan */}
+      {person.day_plan && (
+        <section className="py-20 px-6 bg-gray-50">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white py-12 px-6 rounded-t-3xl"
+            >
+              <h2 className="text-5xl md:text-6xl font-bold text-center">
+                30-60-90 DAY PLAN
+              </h2>
+            </motion.div>
+            
+            <div className="grid md:grid-cols-3 gap-6 -mt-6">
+              {/* 30 Days */}
+              {person.day_plan.day_30 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-2xl shadow-xl p-8"
+                >
+                  <div className="w-40 h-40 rounded-full bg-slate-600 text-white flex items-center justify-center text-6xl font-bold mx-auto mb-6">
+                    30
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-slate-800 mb-1 text-center uppercase">
+                    {person.day_plan.day_30.title || "The First 30 Days"}
+                  </h3>
+                  <p className="text-slate-600 italic mb-6 text-center">
+                    {person.day_plan.day_30.subtitle || "Preparations"}
+                  </p>
+                  
+                  {person.day_plan.day_30.items && person.day_plan.day_30.items.length > 0 && (
+                    <ul className="space-y-2 text-slate-700">
+                      {person.day_plan.day_30.items.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-slate-800 mt-1">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </motion.div>
+              )}
+
+              {/* 60 Days */}
+              {person.day_plan.day_60 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  className="bg-white rounded-2xl shadow-xl p-8"
+                >
+                  <div className="w-40 h-40 rounded-full bg-slate-600 text-white flex items-center justify-center text-6xl font-bold mx-auto mb-6">
+                    60
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-slate-800 mb-1 text-center uppercase">
+                    {person.day_plan.day_60.title || "At 60 Days"}
+                  </h3>
+                  <p className="text-slate-600 italic mb-6 text-center">
+                    {person.day_plan.day_60.subtitle || "Finalization"}
+                  </p>
+                  
+                  {person.day_plan.day_60.items && person.day_plan.day_60.items.length > 0 && (
+                    <ul className="space-y-2 text-slate-700">
+                      {person.day_plan.day_60.items.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-slate-800 mt-1">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </motion.div>
+              )}
+
+              {/* 90 Days */}
+              {person.day_plan.day_90 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  className="bg-white rounded-2xl shadow-xl p-8"
+                >
+                  <div className="w-40 h-40 rounded-full bg-slate-600 text-white flex items-center justify-center text-6xl font-bold mx-auto mb-6">
+                    90
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-slate-800 mb-1 text-center uppercase">
+                    {person.day_plan.day_90.title || "At 90 Days"}
+                  </h3>
+                  <p className="text-slate-600 italic mb-6 text-center">
+                    {person.day_plan.day_90.subtitle || "Launch"}
+                  </p>
+                  
+                  {person.day_plan.day_90.items && person.day_plan.day_90.items.length > 0 && (
+                    <ul className="space-y-2 text-slate-700">
+                      {person.day_plan.day_90.items.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-slate-800 mt-1">•</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Experience Section - 30-60-90 Day Style */}
       {person.experience && person.experience.length > 0 && (
         <section className="py-20 px-6 bg-gray-50">
