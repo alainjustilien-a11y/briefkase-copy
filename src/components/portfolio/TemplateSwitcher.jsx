@@ -34,6 +34,12 @@ const templates = [
     name: 'Bold',
     description: 'High contrast',
     colors: ['bg-black', 'bg-red-500']
+  },
+  {
+    id: 'professional_blue',
+    name: 'Professional Blue',
+    description: 'Bold royal blue',
+    colors: ['bg-blue-700', 'bg-yellow-400']
   }
 ];
 
