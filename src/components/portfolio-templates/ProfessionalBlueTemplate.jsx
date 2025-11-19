@@ -96,23 +96,42 @@ export default function ProfessionalBlueTemplate({ person, onChangeTemplate }) {
             </motion.h2>
             
             <div className="grid md:grid-cols-3 gap-8">
-              {person.achievements.slice(0, 3).map((achievement, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="bg-blue-600/30 backdrop-blur-sm rounded-xl p-8 mb-6">
-                    <Award className="w-16 h-16 text-yellow-400 mx-auto" />
-                  </div>
-                  <p className="text-lg leading-relaxed text-blue-100">
-                    {achievement}
-                  </p>
-                </motion.div>
-              ))}
+              {person.achievements.slice(0, 3).map((achievement, idx) => {
+                // Extract any numbers or percentages from the achievement text
+                const match = achievement.match(/(\+?\d+\.?\d*%?|\d+\s*(?:years|yrs|MM|million))/i);
+                const stat = match ? match[0] : `#${idx + 1}`;
+                
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="relative overflow-hidden rounded-xl bg-slate-400/20"
+                  >
+                    {/* City skyline background */}
+                    <div 
+                      className="absolute inset-0 opacity-40"
+                      style={{
+                        backgroundImage: "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 800 400%22%3E%3Cpath fill=%22%23334155%22 d=%22M0 300h50v100H0zm60 -50h40v150H60zm110 -40h45v190h-45zm55 20h50v170h-50zm60 -60h40v230h-40zm50 40h55v190h-55zm65 -30h45v220h-45zm55 50h40v170h-40zm50 -70h50v240h-50zm60 30h45v210h-45zm55 -20h40v230h-40zm50 40h55v190h-55z%22/%3E%3C/svg%3E')",
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'bottom'
+                      }}
+                    />
+                    
+                    {/* Content */}
+                    <div className="relative p-8 text-center">
+                      <div className="text-6xl md:text-7xl font-black text-yellow-400 mb-6">
+                        {stat}
+                      </div>
+                      <p className="text-lg leading-relaxed">
+                        {achievement}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
