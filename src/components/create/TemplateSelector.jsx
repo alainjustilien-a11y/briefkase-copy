@@ -38,6 +38,13 @@ const templates = [
     description: 'High contrast and statement-making',
     colors: ['bg-black', 'bg-white', 'bg-red-500'],
     preview: 'Strong typography and bold colors'
+  },
+  {
+    id: 'professional_blue',
+    name: 'Professional Blue',
+    description: 'Bold royal blue with clean sections',
+    colors: ['bg-blue-700', 'bg-white', 'bg-yellow-400'],
+    preview: 'Royal blue with structured layout'
   }
 ];
 
