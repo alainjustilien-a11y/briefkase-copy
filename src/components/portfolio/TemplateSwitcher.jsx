@@ -40,6 +40,12 @@ const templates = [
     name: 'Professional Blue',
     description: 'Bold royal blue',
     colors: ['bg-blue-700', 'bg-yellow-400']
+  },
+  {
+    id: 'paginated',
+    name: 'Paginated',
+    description: 'Separate pages',
+    colors: ['bg-gradient-to-br from-indigo-600 to-purple-600', 'bg-white']
   }
 ];
 

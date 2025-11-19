@@ -8,6 +8,7 @@ import CreativeTemplate from "../components/portfolio-templates/CreativeTemplate
 import ClassicTemplate from "../components/portfolio-templates/ClassicTemplate";
 import BoldTemplate from "../components/portfolio-templates/BoldTemplate";
 import ProfessionalBlueTemplate from "../components/portfolio-templates/ProfessionalBlueTemplate";
+import PaginatedTemplate from "../components/portfolio-templates/PaginatedTemplate";
 import TemplateSwitcher from "../components/portfolio/TemplateSwitcher";
 
 const templates = {
@@ -17,6 +18,7 @@ const templates = {
   classic: ClassicTemplate,
   bold: BoldTemplate,
   professional_blue: ProfessionalBlueTemplate,
+  paginated: PaginatedTemplate,
 };
 
 export default function Portfolio() {

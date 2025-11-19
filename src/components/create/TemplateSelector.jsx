@@ -45,6 +45,13 @@ const templates = [
     description: 'Bold royal blue with clean sections',
     colors: ['bg-blue-700', 'bg-white', 'bg-yellow-400'],
     preview: 'Royal blue with structured layout'
+  },
+  {
+    id: 'paginated',
+    name: 'Paginated',
+    description: 'Separate pages for each section',
+    colors: ['bg-gradient-to-br from-indigo-600', 'bg-gradient-to-br from-emerald-600', 'bg-gradient-to-br from-orange-500'],
+    preview: 'Navigate through different pages'
   }
 ];
 
