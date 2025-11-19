@@ -77,7 +77,8 @@ export default function CreatePortfolio() {
           },
           achievements: {
             type: "array",
-            items: { type: "string" }
+            items: { type: "string" },
+            description: "Key achievements with specific metrics or percentages (e.g., '+15% sales', '6MM in sales', '10+ years experience')"
           },
           education: {
             type: "array",
@@ -87,6 +88,36 @@ export default function CreatePortfolio() {
                 degree: { type: "string" },
                 institution: { type: "string" },
                 year: { type: "string" }
+              }
+            }
+          },
+          day_plan: {
+            type: "object",
+            description: "30-60-90 day plan for new role",
+            properties: {
+              day_30: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  subtitle: { type: "string" },
+                  items: { type: "array", items: { type: "string" } }
+                }
+              },
+              day_60: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  subtitle: { type: "string" },
+                  items: { type: "array", items: { type: "string" } }
+                }
+              },
+              day_90: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  subtitle: { type: "string" },
+                  items: { type: "array", items: { type: "string" } }
+                }
               }
             }
           }

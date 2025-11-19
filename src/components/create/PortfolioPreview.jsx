@@ -126,6 +126,187 @@ export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
             </div>
           </div>
 
+          {/* Achievements */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <Label className="text-slate-700 font-semibold">Key Achievements</Label>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                onClick={() => addArrayItem('achievements', '')}
+                className="rounded-lg"
+              >
+                <Plus className="w-4 h-4 mr-1" /> Add Achievement
+              </Button>
+            </div>
+            <div className="space-y-2">
+              {editedData.achievements?.map((achievement, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <Input
+                    value={achievement}
+                    onChange={(e) => updateArrayItem('achievements', index, e.target.value)}
+                    className="rounded-lg flex-1"
+                    placeholder="e.g., +15% sales to goal achievement"
+                  />
+                  <button
+                    onClick={() => removeArrayItem('achievements', index)}
+                    className="text-slate-400 hover:text-red-500"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 30-60-90 Day Plan */}
+          <div>
+            <Label className="text-slate-700 font-semibold mb-3 block">30-60-90 Day Plan</Label>
+            <div className="grid md:grid-cols-3 gap-4">
+              {/* 30 Days */}
+              <Card className="p-4 bg-slate-50 border-slate-200">
+                <h4 className="font-semibold text-slate-900 mb-2">30 Days</h4>
+                <Input
+                  placeholder="Title"
+                  value={editedData.day_plan?.day_30?.title || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_30: { ...prev.day_plan?.day_30, title: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Input
+                  placeholder="Subtitle"
+                  value={editedData.day_plan?.day_30?.subtitle || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_30: { ...prev.day_plan?.day_30, subtitle: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Textarea
+                  placeholder="Goals (one per line)"
+                  value={editedData.day_plan?.day_30?.items?.join('\n') || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_30: { ...prev.day_plan?.day_30, items: e.target.value.split('\n').filter(i => i.trim()) }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg min-h-24"
+                />
+              </Card>
+
+              {/* 60 Days */}
+              <Card className="p-4 bg-slate-50 border-slate-200">
+                <h4 className="font-semibold text-slate-900 mb-2">60 Days</h4>
+                <Input
+                  placeholder="Title"
+                  value={editedData.day_plan?.day_60?.title || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_60: { ...prev.day_plan?.day_60, title: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Input
+                  placeholder="Subtitle"
+                  value={editedData.day_plan?.day_60?.subtitle || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_60: { ...prev.day_plan?.day_60, subtitle: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Textarea
+                  placeholder="Goals (one per line)"
+                  value={editedData.day_plan?.day_60?.items?.join('\n') || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_60: { ...prev.day_plan?.day_60, items: e.target.value.split('\n').filter(i => i.trim()) }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg min-h-24"
+                />
+              </Card>
+
+              {/* 90 Days */}
+              <Card className="p-4 bg-slate-50 border-slate-200">
+                <h4 className="font-semibold text-slate-900 mb-2">90 Days</h4>
+                <Input
+                  placeholder="Title"
+                  value={editedData.day_plan?.day_90?.title || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_90: { ...prev.day_plan?.day_90, title: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Input
+                  placeholder="Subtitle"
+                  value={editedData.day_plan?.day_90?.subtitle || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_90: { ...prev.day_plan?.day_90, subtitle: e.target.value }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg mb-2"
+                />
+                <Textarea
+                  placeholder="Goals (one per line)"
+                  value={editedData.day_plan?.day_90?.items?.join('\n') || ''}
+                  onChange={(e) => {
+                    setEditedData(prev => ({
+                      ...prev,
+                      day_plan: {
+                        ...prev.day_plan,
+                        day_90: { ...prev.day_plan?.day_90, items: e.target.value.split('\n').filter(i => i.trim()) }
+                      }
+                    }));
+                  }}
+                  className="rounded-lg min-h-24"
+                />
+              </Card>
+            </div>
+          </div>
+
           {/* Experience */}
           <div>
             <div className="flex items-center justify-between mb-3">
