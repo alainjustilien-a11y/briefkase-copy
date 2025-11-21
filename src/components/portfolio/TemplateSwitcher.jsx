@@ -46,6 +46,24 @@ const templates = [
     name: 'Paginated',
     description: 'Separate pages',
     colors: ['bg-gradient-to-br from-indigo-600 to-purple-600', 'bg-white']
+  },
+  {
+    id: 'minimalist',
+    name: 'Minimalist',
+    description: 'Clean typography',
+    colors: ['bg-white', 'bg-black']
+  },
+  {
+    id: 'dark_animated',
+    name: 'Dark Animated',
+    description: 'Dark with animations',
+    colors: ['bg-gradient-to-br from-gray-900 to-cyan-500', 'bg-cyan-400']
+  },
+  {
+    id: 'video_background',
+    name: 'Video Background',
+    description: 'Dynamic video',
+    colors: ['bg-black', 'bg-gradient-to-br from-purple-600 to-blue-600']
   }
 ];
 

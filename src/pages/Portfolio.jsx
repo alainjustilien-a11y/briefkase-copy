@@ -9,6 +9,9 @@ import ClassicTemplate from "../components/portfolio-templates/ClassicTemplate";
 import BoldTemplate from "../components/portfolio-templates/BoldTemplate";
 import ProfessionalBlueTemplate from "../components/portfolio-templates/ProfessionalBlueTemplate";
 import PaginatedTemplate from "../components/portfolio-templates/PaginatedTemplate";
+import MinimalistTemplate from "../components/portfolio-templates/MinimalistTemplate";
+import DarkAnimatedTemplate from "../components/portfolio-templates/DarkAnimatedTemplate";
+import VideoBackgroundTemplate from "../components/portfolio-templates/VideoBackgroundTemplate";
 import TemplateSwitcher from "../components/portfolio/TemplateSwitcher";
 
 const templates = {
@@ -19,6 +22,9 @@ const templates = {
   bold: BoldTemplate,
   professional_blue: ProfessionalBlueTemplate,
   paginated: PaginatedTemplate,
+  minimalist: MinimalistTemplate,
+  dark_animated: DarkAnimatedTemplate,
+  video_background: VideoBackgroundTemplate,
 };
 
 export default function Portfolio() {

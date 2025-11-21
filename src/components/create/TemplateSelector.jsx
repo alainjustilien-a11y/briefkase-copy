@@ -52,6 +52,27 @@ const templates = [
     description: 'Separate pages for each section',
     colors: ['bg-gradient-to-br from-indigo-600', 'bg-gradient-to-br from-emerald-600', 'bg-gradient-to-br from-orange-500'],
     preview: 'Navigate through different pages'
+  },
+  {
+    id: 'minimalist',
+    name: 'Minimalist',
+    description: 'Clean typography and spacing',
+    colors: ['bg-white', 'bg-gray-100', 'bg-black'],
+    preview: 'Simple and elegant design'
+  },
+  {
+    id: 'dark_animated',
+    name: 'Dark Animated',
+    description: 'Dark theme with subtle animations',
+    colors: ['bg-gradient-to-br from-gray-900', 'bg-gradient-to-br from-cyan-500', 'bg-gradient-to-br from-blue-500'],
+    preview: 'Dynamic dark design'
+  },
+  {
+    id: 'video_background',
+    name: 'Video Background',
+    description: 'Dynamic video presentation',
+    colors: ['bg-black', 'bg-gradient-to-br from-purple-500', 'bg-gradient-to-br from-blue-500'],
+    preview: 'Cinematic video backdrop'
   }
 ];
 
