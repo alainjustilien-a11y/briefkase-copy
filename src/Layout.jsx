@@ -57,13 +57,11 @@ export default function Layout({ children, currentPageName }) {
         <Sidebar className="border-r border-slate-200/60 backdrop-blur-xl bg-white/80">
           <SidebarHeader className="border-b border-slate-200/60 p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl flex items-center justify-center shadow-lg">
-                <Briefcase className="w-5 h-5 text-amber-400" />
-              </div>
-              <div>
-                <h2 className="font-bold text-slate-900 tracking-tight">PortfolioHub</h2>
-                <p className="text-xs text-slate-500 font-medium">Sales Excellence</p>
-              </div>
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/9e08195bb_riefKase1.png"
+                alt="Briefkase"
+                className="h-8"
+              />
             </div>
           </SidebarHeader>
           
@@ -99,10 +97,11 @@ export default function Layout({ children, currentPageName }) {
           <header className="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 px-6 py-4 md:hidden sticky top-0 z-10">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="hover:bg-slate-100 p-2 rounded-lg transition-colors duration-200" />
-              <div className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-slate-900" />
-                <h1 className="text-lg font-bold text-slate-900">PortfolioHub</h1>
-              </div>
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/9e08195bb_riefKase1.png"
+                alt="Briefkase"
+                className="h-6"
+              />
             </div>
           </header>
 

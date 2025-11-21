@@ -346,10 +346,11 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-slate-900" />
-                </div>
-                <span className="text-2xl font-bold text-white">PortfolioHub</span>
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/9e08195bb_riefKase1.png"
+                  alt="Briefkase"
+                  className="h-10"
+                />
               </div>
               <p className="text-slate-400">
                 Transform your sales success into visual stories that close deals.
@@ -395,7 +396,7 @@ export default function Home() {
           </div>
 
           <div className="border-t border-slate-800 pt-8 text-center text-slate-500">
-            <p>&copy; 2025 PortfolioHub. All rights reserved.</p>
+            <p>&copy; 2025 Briefkase. All rights reserved.</p>
           </div>
         </div>
       </footer>
