@@ -227,21 +227,23 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <Card className="bg-slate-800 border-slate-700 overflow-hidden hover:border-amber-500/50 transition-all cursor-pointer group">
-                  <div className="aspect-[3/4] bg-gradient-to-br from-slate-700 to-slate-800 relative overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-4xl font-bold text-slate-600 group-hover:text-amber-500 transition-colors">
-                        {template}
-                      </span>
+                <Link to={createPageUrl("Dashboard")}>
+                  <Card className="bg-slate-800 border-slate-700 overflow-hidden hover:border-amber-500/50 transition-all cursor-pointer group">
+                    <div className="aspect-[3/4] bg-gradient-to-br from-slate-700 to-slate-800 relative overflow-hidden">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-4xl font-bold text-slate-600 group-hover:text-amber-500 transition-colors">
+                          {template}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-4">
-                    <h3 className="text-lg font-semibold text-white mb-2">{template}</h3>
-                    <Button variant="ghost" className="text-amber-400 hover:text-amber-300 p-0 h-auto">
-                      View Template <ArrowRight className="w-4 h-4 ml-2" />
-                    </Button>
-                  </div>
-                </Card>
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-white mb-2">{template}</h3>
+                      <Button variant="ghost" className="text-amber-400 hover:text-amber-300 p-0 h-auto">
+                        View Template <ArrowRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
+                  </Card>
+                </Link>
               </motion.div>
             ))}
           </div>
