@@ -8,10 +8,14 @@ import { X, Plus, Trash2, Save, BookOpen } from "lucide-react";
 
 export default function CaseStudyForm({ caseStudy, onSave, onClose }) {
   const [formData, setFormData] = useState(caseStudy || {
-    client_name: "",
-    problem: "",
-    strategy: "",
-    execution: "",
+    headline: "",
+    challenge: "",
+    solution: "",
+    role: "",
+    actions: "",
+    obstacles: "",
+    metrics: "",
+    impact: "",
     results: [
       { metric: "", label: "" },
       { metric: "", label: "" },
@@ -82,66 +86,126 @@ export default function CaseStudyForm({ caseStudy, onSave, onClose }) {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {/* Client Name */}
+          {/* Case Study Headline */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Client / Company Name
+              Case Study Headline
+              <span className="text-red-500 ml-1">*</span>
             </label>
             <Input
-              value={formData.client_name}
-              onChange={(e) => handleChange("client_name", e.target.value)}
-              placeholder="e.g., Fortune 500 Tech Company"
-              className="h-12"
+              value={formData.headline}
+              onChange={(e) => handleChange("headline", e.target.value)}
+              placeholder="e.g., Closed $2.4M Enterprise Deal in 6 Months"
+              className="h-12 font-semibold"
+              required
             />
-            <p className="text-xs text-slate-500 mt-1">You can use a general description if you need to keep it confidential</p>
+            <p className="text-xs text-slate-500 mt-1">A compelling headline that summarizes your win</p>
           </div>
 
-          {/* The Problem */}
+          {/* Client Challenge */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              The Problem
+              What was the client's main challenge or goal?
               <span className="text-red-500 ml-1">*</span>
             </label>
             <Textarea
-              value={formData.problem}
-              onChange={(e) => handleChange("problem", e.target.value)}
-              placeholder="Describe the challenge or problem the client was facing..."
-              className="min-h-[100px]"
+              value={formData.challenge}
+              onChange={(e) => handleChange("challenge", e.target.value)}
+              placeholder="Describe the problem or goal the client was trying to solve..."
+              className="min-h-[80px]"
               required
             />
             <p className="text-xs text-slate-500 mt-1">e.g., "Enterprise client struggling with legacy system migration, causing 40% productivity loss across 500+ users."</p>
           </div>
 
-          {/* The Strategy */}
+          {/* Solution */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Your Strategy
+              What product or solution did you sell?
               <span className="text-red-500 ml-1">*</span>
             </label>
             <Textarea
-              value={formData.strategy}
-              onChange={(e) => handleChange("strategy", e.target.value)}
-              placeholder="What approach did you take to solve this?"
-              className="min-h-[100px]"
+              value={formData.solution}
+              onChange={(e) => handleChange("solution", e.target.value)}
+              placeholder="Describe the solution you provided..."
+              className="min-h-[80px]"
               required
             />
-            <p className="text-xs text-slate-500 mt-1">e.g., "Developed phased implementation approach with dedicated success team and custom training program."</p>
           </div>
 
-          {/* The Execution */}
+          {/* Your Role */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              The Execution
+              What was your role in the sales process?
+              <span className="text-red-500 ml-1">*</span>
+            </label>
+            <Input
+              value={formData.role}
+              onChange={(e) => handleChange("role", e.target.value)}
+              placeholder="e.g., Lead Account Executive, Strategic AE, Sales Manager"
+              className="h-12"
+              required
+            />
+          </div>
+
+          {/* Strategy & Actions */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              What specific actions did you take to win this deal?
               <span className="text-red-500 ml-1">*</span>
             </label>
             <Textarea
-              value={formData.execution}
-              onChange={(e) => handleChange("execution", e.target.value)}
-              placeholder="How did you implement the solution?"
+              value={formData.actions}
+              onChange={(e) => handleChange("actions", e.target.value)}
+              placeholder="Describe your strategy and key actions..."
               className="min-h-[100px]"
               required
             />
-            <p className="text-xs text-slate-500 mt-1">e.g., "Led cross-functional team of 8 through 6-month deployment with weekly stakeholder reviews."</p>
+            <p className="text-xs text-slate-500 mt-1">e.g., "Led discovery calls with 5 stakeholders, built custom ROI model, coordinated product demos..."</p>
+          </div>
+
+          {/* Obstacles */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              What obstacles did you face and how did you overcome them?
+            </label>
+            <Textarea
+              value={formData.obstacles}
+              onChange={(e) => handleChange("obstacles", e.target.value)}
+              placeholder="Describe challenges and how you navigated them..."
+              className="min-h-[100px]"
+            />
+            <p className="text-xs text-slate-500 mt-1">e.g., "Budget concerns from CFO — addressed with phased implementation plan and guaranteed ROI timeline."</p>
+          </div>
+
+          {/* Key Metrics */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              What were the measurable results?
+              <span className="text-red-500 ml-1">*</span>
+            </label>
+            <Textarea
+              value={formData.metrics}
+              onChange={(e) => handleChange("metrics", e.target.value)}
+              placeholder="List specific metrics and numbers..."
+              className="min-h-[80px]"
+              required
+            />
+            <p className="text-xs text-slate-500 mt-1">e.g., "$2.4M contract value, 85% adoption rate, 3x ROI in first year"</p>
+          </div>
+
+          {/* Client Impact */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              What was the impact on the client?
+            </label>
+            <Textarea
+              value={formData.impact}
+              onChange={(e) => handleChange("impact", e.target.value)}
+              placeholder="Describe the outcome for the client..."
+              className="min-h-[80px]"
+            />
+            <p className="text-xs text-slate-500 mt-1">e.g., "Reduced manual processes by 60%, enabling team to focus on strategic initiatives."</p>
           </div>
 
           {/* Results */}
@@ -202,7 +266,8 @@ export default function CaseStudyForm({ caseStudy, onSave, onClose }) {
 
           {/* Preview */}
           <div className="bg-slate-900 rounded-2xl p-6">
-            <h4 className="text-amber-400 font-semibold text-sm mb-4">PREVIEW: Results Section</h4>
+            <h4 className="text-amber-400 font-semibold text-sm mb-2">WIN SUMMARY</h4>
+            <h3 className="text-white text-xl font-bold mb-4">{formData.headline || "Your Case Study Headline"}</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {formData.results.filter(r => r.metric || r.label).map((result, i) => (
                 <div key={i} className="text-center">
