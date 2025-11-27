@@ -244,65 +244,202 @@ export default function Home() {
           </motion.div>
 
           <div className="space-y-20">
-            {[
-              {
-                icon: Trophy,
-                title: "Deal Wins Page",
-                description: "Showcase your biggest closes, deal sizes, timelines, and impact. Let your results speak louder than any resume.",
-                align: "left"
-              },
-              {
-                icon: BarChart3,
-                title: "Sales Dashboard",
-                description: "Present your KPIs, quota performance, pipeline progress, and results in a clear, visual format recruiters love.",
-                align: "right"
-              },
-              {
-                icon: BookOpen,
-                title: "Case Studies",
-                description: "Mini win stories that demonstrate your ability to close, strategize, and execute on complex deals.",
-                align: "left"
-              },
-              {
-                icon: Wrench,
-                title: "Skills & Tech Stack",
-                description: "ATS-friendly, modern, visually structured overview of your sales strengths and tools you've mastered.",
-                align: "right"
-              },
-              {
-                icon: User,
-                title: "Branded Cover Page",
-                description: "A premium, personal visual introduction designed to set you apart instantly from other candidates.",
-                align: "left"
-              },
-              {
-                icon: Share2,
-                title: "Easy Sharing",
-                description: "Download your portfolio as a PDF or share it with a branded link. Perfect for emails and LinkedIn.",
-                align: "right"
-              }
-            ].map((feature, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className={`grid md:grid-cols-2 gap-12 items-center ${feature.align === 'right' ? 'md:flex-row-reverse' : ''}`}
-              >
-                <div className={feature.align === 'right' ? 'md:order-2' : ''}>
-                  <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
-                    <feature.icon className="w-8 h-8 text-amber-500" />
-                  </div>
-                  <h3 className="text-3xl font-bold text-slate-900 mb-4">{feature.title}</h3>
-                  <p className="text-lg text-slate-600 leading-relaxed">{feature.description}</p>
+            {/* Deal Wins Page */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <Trophy className="w-8 h-8 text-amber-500" />
                 </div>
-                <div className={`bg-slate-100 rounded-2xl aspect-video flex items-center justify-center ${feature.align === 'right' ? 'md:order-1' : ''}`}>
-                  <div className="w-20 h-20 rounded-2xl bg-slate-200 flex items-center justify-center">
-                    <feature.icon className="w-10 h-10 text-slate-400" />
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Deal Wins Page</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">Showcase your biggest closes, deal sizes, timelines, and impact. Let your results speak louder than any resume.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-xl">
+                <h4 className="text-amber-400 font-semibold mb-4 text-sm">DEAL WINS</h4>
+                <div className="space-y-3">
+                  {[
+                    { size: "$1.2M", industry: "Enterprise SaaS" },
+                    { size: "$800K", industry: "FinTech" },
+                    { size: "$450K", industry: "Healthcare" }
+                  ].map((deal, i) => (
+                    <div key={i} className="bg-slate-700/50 rounded-lg p-3 flex items-center justify-between">
+                      <span className="text-amber-400 font-bold">{deal.size}</span>
+                      <span className="text-slate-400 text-sm">{deal.industry}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Sales Dashboard */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div className="md:order-2">
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <BarChart3 className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Sales Dashboard</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">Present your KPIs, quota performance, pipeline progress, and results in a clear, visual format recruiters love.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-xl md:order-1">
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {[
+                    { label: "Quota", value: "142%" },
+                    { label: "Revenue", value: "$2.8M" },
+                    { label: "Pipeline", value: "$5.2M" },
+                    { label: "Win Rate", value: "34%" }
+                  ].map((kpi, i) => (
+                    <div key={i} className="bg-slate-700/50 rounded-lg p-3 text-center">
+                      <div className="text-amber-400 font-bold text-lg">{kpi.value}</div>
+                      <div className="text-slate-400 text-xs">{kpi.label}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-end gap-2 h-16">
+                  {[40, 60, 80, 100].map((h, i) => (
+                    <div key={i} className="flex-1 bg-amber-500/80 rounded-t" style={{ height: `${h}%` }} />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Case Studies */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <BookOpen className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Case Studies</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">Mini win stories that demonstrate your ability to close, strategize, and execute on complex deals.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-xl">
+                <h4 className="text-amber-400 font-semibold mb-4 text-sm">CASE STUDY</h4>
+                <div className="space-y-3">
+                  <div className="border-l-2 border-red-500 pl-3">
+                    <div className="text-xs text-slate-500">PROBLEM</div>
+                    <div className="text-slate-300 text-sm">40% productivity loss</div>
+                  </div>
+                  <div className="border-l-2 border-blue-500 pl-3">
+                    <div className="text-xs text-slate-500">STRATEGY</div>
+                    <div className="text-slate-300 text-sm">Phased implementation</div>
+                  </div>
+                  <div className="border-l-2 border-amber-500 pl-3">
+                    <div className="text-xs text-slate-500">RESULT</div>
+                    <div className="text-amber-400 font-bold">$2.4M Contract</div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              </div>
+            </motion.div>
+
+            {/* Skills & Tech Stack */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div className="md:order-2">
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <Wrench className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Skills & Tech Stack</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">ATS-friendly, modern, visually structured overview of your sales strengths and tools you've mastered.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-xl md:order-1">
+                <h4 className="text-amber-400 font-semibold mb-4 text-sm">TECH STACK</h4>
+                <div className="grid grid-cols-3 gap-2">
+                  {["Salesforce", "HubSpot", "Outreach", "Gong", "LinkedIn", "ZoomInfo"].map((tool, i) => (
+                    <div key={i} className="bg-slate-700/50 rounded-lg p-2 text-center">
+                      <div className="text-slate-300 text-xs">{tool}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {["MEDDIC", "SPIN", "Challenger"].map((method, i) => (
+                    <span key={i} className="bg-amber-500/20 text-amber-400 px-2 py-1 rounded text-xs">{method}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Branded Cover Page */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <User className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Branded Cover Page</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">A premium, personal visual introduction designed to set you apart instantly from other candidates.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 shadow-xl text-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 mx-auto mb-4 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-slate-900">JD</span>
+                </div>
+                <div className="text-white text-xl font-bold mb-1">John Doe</div>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <div className="w-8 h-0.5 bg-amber-500" />
+                  <span className="text-amber-400 text-sm tracking-widest">SALES PORTFOLIO</span>
+                  <div className="w-8 h-0.5 bg-amber-500" />
+                </div>
+                <div className="text-slate-400 text-sm">Enterprise Account Executive</div>
+              </div>
+            </motion.div>
+
+            {/* Easy Sharing */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <div className="md:order-2">
+                <div className="w-16 h-16 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6">
+                  <Share2 className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Easy Sharing</h3>
+                <p className="text-lg text-slate-600 leading-relaxed">Download your portfolio as a PDF or share it with a branded link. Perfect for emails and LinkedIn.</p>
+              </div>
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 shadow-xl md:order-1">
+                <div className="space-y-3">
+                  <div className="bg-slate-700/50 rounded-lg p-3 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-red-500/20 flex items-center justify-center">
+                      <FileText className="w-4 h-4 text-red-400" />
+                    </div>
+                    <span className="text-slate-300 text-sm">Download PDF</span>
+                  </div>
+                  <div className="bg-slate-700/50 rounded-lg p-3 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center">
+                      <Share2 className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <span className="text-slate-300 text-sm">thebriefkase.com/john-doe</span>
+                  </div>
+                  <div className="bg-slate-700/50 rounded-lg p-3 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-amber-500/20 flex items-center justify-center">
+                      <Monitor className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <span className="text-slate-300 text-sm">Copy Link to Share</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
