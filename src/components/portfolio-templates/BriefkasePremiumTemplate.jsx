@@ -282,9 +282,14 @@ const DealWinsPage = ({ person }) => {
 // Case Study Page Component
 const CaseStudyPage = ({ person, onEditCaseStudy }) => {
   const defaultCaseStudy = {
-    problem: "Enterprise client struggling with legacy system migration, causing 40% productivity loss across 500+ users.",
-    strategy: "Developed phased implementation approach with dedicated success team and custom training program.",
-    execution: "Led cross-functional team of 8 through 6-month deployment with weekly stakeholder reviews.",
+    headline: "Enterprise Digital Transformation Win",
+    challenge: "Enterprise client struggling with legacy system migration, causing 40% productivity loss across 500+ users.",
+    solution: "Cloud-based platform with custom integrations and dedicated implementation support.",
+    role: "Lead Account Executive",
+    actions: "Led cross-functional team of 8 through 6-month deployment with weekly stakeholder reviews.",
+    obstacles: "Initial budget concerns from CFO — addressed with phased implementation plan and guaranteed ROI timeline.",
+    metrics: "$2.4M contract value, 85% adoption rate, 3x ROI in first year",
+    impact: "Reduced manual processes by 60%, enabling team to focus on strategic initiatives.",
     results: [
       { metric: "$2.4M", label: "Contract Value" },
       { metric: "85%", label: "Adoption Rate" },
@@ -299,17 +304,15 @@ const CaseStudyPage = ({ person, onEditCaseStudy }) => {
   return (
     <section className="min-h-screen bg-white py-20 px-6">
       <div className="max-w-6xl mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Case Study
-            {caseStudy.client_name && (
-              <span className="block text-xl text-slate-500 font-normal mt-2">{caseStudy.client_name}</span>
-            )}
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-2">
+            {caseStudy.headline || "Case Study"}
           </h2>
           <div className="w-20 h-1 bg-amber-500 mx-auto mb-4" />
           {onEditCaseStudy && (
@@ -325,35 +328,66 @@ const CaseStudyPage = ({ person, onEditCaseStudy }) => {
           )}
         </motion.div>
 
+        {/* Deal Summary */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-slate-50 rounded-2xl p-6 mb-8"
+        >
+          <div className="grid md:grid-cols-3 gap-4 text-center md:text-left">
+            <div>
+              <div className="text-xs text-slate-500 uppercase mb-1">Client Goal</div>
+              <div className="text-slate-900 font-medium">{caseStudy.challenge}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-500 uppercase mb-1">Solution</div>
+              <div className="text-slate-900 font-medium">{caseStudy.solution}</div>
+            </div>
+            <div>
+              <div className="text-xs text-slate-500 uppercase mb-1">Your Role</div>
+              <div className="text-slate-900 font-medium">{caseStudy.role}</div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Strategy & Execution + Obstacles */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {[
-            { title: "The Problem", content: caseStudy.problem, color: "border-red-500" },
-            { title: "The Strategy", content: caseStudy.strategy, color: "border-blue-500" },
-            { title: "The Execution", content: caseStudy.execution, color: "border-purple-500" },
-          ].map((item, i) => (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-slate-50 rounded-2xl p-8 border-l-4 border-blue-500"
+          >
+            <h3 className="text-xl font-bold text-slate-900 mb-4">Strategy & Execution</h3>
+            <p className="text-slate-600 leading-relaxed">{caseStudy.actions}</p>
+          </motion.div>
+
+          {caseStudy.obstacles && (
             <motion.div
-              key={i}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`bg-slate-50 rounded-2xl p-8 border-l-4 ${item.color} ${i === 2 ? 'md:col-span-2' : ''}`}
+              transition={{ delay: 0.1 }}
+              className="bg-slate-50 rounded-2xl p-8 border-l-4 border-purple-500"
             >
-              <h3 className="text-xl font-bold text-slate-900 mb-4">{item.title}</h3>
-              <p className="text-slate-600 leading-relaxed">{item.content}</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-4">Challenges & Obstacle Navigation</h3>
+              <p className="text-slate-600 leading-relaxed">{caseStudy.obstacles}</p>
             </motion.div>
-          ))}
+          )}
         </div>
 
-        {/* Results */}
+        {/* Results Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-slate-900 rounded-2xl p-8"
+          className="bg-slate-900 rounded-2xl p-8 mb-8"
         >
-          <h3 className="text-xl font-bold text-white mb-8 text-center">The Results</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <h3 className="text-xl font-bold text-white mb-8 text-center">Results</h3>
+          
+          {/* Metrics Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
             {(caseStudy.results || defaultCaseStudy.results).map((result, i) => (
               <div key={i} className="text-center">
                 <div className="text-4xl md:text-5xl font-bold text-amber-400 mb-2">{result.metric}</div>
@@ -361,6 +395,31 @@ const CaseStudyPage = ({ person, onEditCaseStudy }) => {
               </div>
             ))}
           </div>
+
+          {/* Key Metrics & Impact */}
+          <div className="grid md:grid-cols-2 gap-6 border-t border-slate-700 pt-6">
+            <div>
+              <div className="text-amber-400 font-semibold text-sm mb-2">Key Metrics</div>
+              <p className="text-slate-300">{caseStudy.metrics}</p>
+            </div>
+            {caseStudy.impact && (
+              <div>
+                <div className="text-amber-400 font-semibold text-sm mb-2">Client Impact</div>
+                <p className="text-slate-300">{caseStudy.impact}</p>
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Win Summary Callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl p-6 text-center"
+        >
+          <div className="text-amber-900 font-semibold text-sm mb-1">WIN SUMMARY</div>
+          <div className="text-2xl font-bold text-slate-900">{caseStudy.headline}</div>
         </motion.div>
       </div>
     </section>
