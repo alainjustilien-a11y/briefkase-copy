@@ -14,6 +14,7 @@ import DarkAnimatedTemplate from "../components/portfolio-templates/DarkAnimated
 import VideoBackgroundTemplate from "../components/portfolio-templates/VideoBackgroundTemplate";
 import BriefkasePremiumTemplate from "../components/portfolio-templates/BriefkasePremiumTemplate";
 import TemplateSwitcher from "../components/portfolio/TemplateSwitcher";
+import CaseStudyForm from "../components/portfolio/CaseStudyForm";
 
 const templates = {
   executive: ExecutiveTemplate,
@@ -34,6 +35,7 @@ export default function Portfolio() {
   const urlParams = new URLSearchParams(window.location.search);
   const personId = urlParams.get('id');
   const [showTemplateSwitcher, setShowTemplateSwitcher] = useState(false);
+  const [showCaseStudyForm, setShowCaseStudyForm] = useState(false);
 
   const { data: person, isLoading, error } = useQuery({
     queryKey: ['salesperson', personId],
@@ -55,6 +57,18 @@ export default function Portfolio() {
     onError: (error) => {
       console.error("Error updating template:", error);
       alert("Failed to update template. Please try again.");
+    }
+  });
+
+  const updateCaseStudyMutation = useMutation({
+    mutationFn: (caseStudy) => base44.entities.Salesperson.update(personId, { case_study: caseStudy }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['salesperson', personId] });
+      setShowCaseStudyForm(false);
+    },
+    onError: (error) => {
+      console.error("Error updating case study:", error);
+      alert("Failed to update case study. Please try again.");
     }
   });
 
@@ -106,6 +120,7 @@ export default function Portfolio() {
       <SelectedTemplate 
         person={person} 
         onChangeTemplate={() => setShowTemplateSwitcher(true)}
+        onEditCaseStudy={templateKey === 'briefkase_premium' ? () => setShowCaseStudyForm(true) : undefined}
       />
       
       {showTemplateSwitcher && (
@@ -114,6 +129,14 @@ export default function Portfolio() {
           onSelect={(template) => updateTemplateMutation.mutate(template)}
           onClose={() => setShowTemplateSwitcher(false)}
           person={person}
+        />
+      )}
+
+      {showCaseStudyForm && (
+        <CaseStudyForm
+          caseStudy={person.case_study}
+          onSave={(caseStudy) => updateCaseStudyMutation.mutate(caseStudy)}
+          onClose={() => setShowCaseStudyForm(false)}
         />
       )}
     </>
