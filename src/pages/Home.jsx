@@ -32,23 +32,55 @@ export default function Home() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                Your Sales Portfolio.{" "}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Stand Out. Get More Interviews.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-                  Reinvented.
+                  Close Your Next Job Faster.
                 </span>
               </h1>
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                Stand out in the hiring process with a conversion-optimized, professionally designed sales portfolio — built to prove your value instantly.
+                Your professionally designed sales portfolio tells your story, showcases your wins, and gets you noticed — instantly.
               </p>
-              <div className="flex flex-wrap gap-4 mb-8">
+
+              {/* Benefits Checklist */}
+              <div className="space-y-3 mb-8">
+                {[
+                  "Recruiters see your real value",
+                  "Highlight metrics & deals",
+                  "Show professionalism beyond a resume",
+                  "Designed to convert interviews"
+                ].map((benefit, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + i * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-amber-400 flex-shrink-0" />
+                    <span className="text-slate-300">{benefit}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Mini Packages */}
+              <div className="flex items-center gap-4 mb-8 text-sm">
+                <span className="text-slate-400">Starting at:</span>
+                <div className="flex gap-3">
+                  <span className="bg-slate-800 text-amber-400 px-3 py-1 rounded-full font-semibold">$49</span>
+                  <span className="bg-slate-800 text-amber-400 px-3 py-1 rounded-full font-semibold">$149</span>
+                  <span className="bg-slate-800 text-amber-400 px-3 py-1 rounded-full font-semibold">$299</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4">
                 <Link to={createPageUrl("CreatePortfolio")}>
                   <Button
                     size="lg"
                     className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-900 font-bold text-lg px-8 py-6 rounded-xl"
                   >
                     <Sparkles className="w-5 h-5 mr-2" />
-                    Create My Portfolio
+                    Build My Portfolio
                   </Button>
                 </Link>
                 <Button
@@ -60,21 +92,9 @@ export default function Home() {
                   See Examples
                 </Button>
               </div>
-              
-              {/* Trust Logos */}
-              <div className="pt-8 border-t border-slate-700">
-                <p className="text-slate-500 text-sm mb-4">Trusted by Sales Professionals at</p>
-                <div className="flex flex-wrap gap-6 items-center opacity-60">
-                  <span className="text-slate-400 font-semibold">SaaS</span>
-                  <span className="text-slate-400 font-semibold">Tech</span>
-                  <span className="text-slate-400 font-semibold">B2B</span>
-                  <span className="text-slate-400 font-semibold">Enterprise</span>
-                  <span className="text-slate-400 font-semibold">Startups</span>
-                </div>
-              </div>
             </motion.div>
 
-            {/* Right: Laptop Mockup */}
+            {/* Right: Before/After Visual */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -82,48 +102,74 @@ export default function Home() {
               className="hidden lg:block"
             >
               <div className="relative">
-                {/* Laptop Frame */}
-                <div className="bg-slate-800 rounded-t-2xl p-3 shadow-2xl">
-                  <div className="flex gap-2 mb-3">
-                    <div className="w-3 h-3 rounded-full bg-red-500" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                    <div className="w-3 h-3 rounded-full bg-green-500" />
-                  </div>
-                  <div className="bg-slate-900 rounded-lg overflow-hidden aspect-[16/10]">
-                    {/* Portfolio Preview */}
-                    <div className="h-full bg-gradient-to-br from-slate-800 to-slate-900 p-6">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-16 h-16 rounded-full bg-amber-500/20" />
-                        <div>
-                          <div className="h-4 w-32 bg-white/20 rounded mb-2" />
-                          <div className="h-3 w-24 bg-amber-500/40 rounded" />
+                {/* Before/After Container */}
+                <div className="flex gap-4 items-stretch">
+                  {/* BEFORE - Resume */}
+                  <div className="flex-1 relative">
+                    <div className="absolute -top-3 left-4 bg-slate-600 text-slate-300 px-3 py-1 rounded-full text-xs font-semibold z-10">
+                      BEFORE
+                    </div>
+                    <div className="bg-white rounded-xl p-4 shadow-xl opacity-60 h-full">
+                      <div className="space-y-3">
+                        <div className="h-4 w-3/4 bg-slate-300 rounded" />
+                        <div className="h-3 w-1/2 bg-slate-200 rounded" />
+                        <div className="border-t border-slate-200 pt-3 mt-3">
+                          <div className="h-2 w-full bg-slate-200 rounded mb-2" />
+                          <div className="h-2 w-full bg-slate-200 rounded mb-2" />
+                          <div className="h-2 w-4/5 bg-slate-200 rounded mb-2" />
+                        </div>
+                        <div className="border-t border-slate-200 pt-3">
+                          <div className="h-2 w-full bg-slate-200 rounded mb-2" />
+                          <div className="h-2 w-full bg-slate-200 rounded mb-2" />
+                          <div className="h-2 w-3/4 bg-slate-200 rounded" />
+                        </div>
+                        <div className="border-t border-slate-200 pt-3">
+                          <div className="h-2 w-full bg-slate-200 rounded mb-2" />
+                          <div className="h-2 w-5/6 bg-slate-200 rounded" />
                         </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-3 mb-4">
-                        <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                          <div className="text-amber-400 font-bold text-lg">150%</div>
-                          <div className="text-xs text-slate-400">Quota</div>
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="flex items-center">
+                    <ArrowRight className="w-8 h-8 text-amber-500" />
+                  </div>
+
+                  {/* AFTER - Portfolio */}
+                  <div className="flex-1 relative">
+                    <div className="absolute -top-3 left-4 bg-amber-500 text-slate-900 px-3 py-1 rounded-full text-xs font-bold z-10">
+                      AFTER
+                    </div>
+                    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-4 shadow-2xl border-2 border-amber-500/30 h-full">
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-10 h-10 rounded-full bg-amber-500/30" />
+                        <div>
+                          <div className="h-3 w-20 bg-white/30 rounded mb-1" />
+                          <div className="h-2 w-16 bg-amber-500/50 rounded" />
                         </div>
-                        <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                          <div className="text-amber-400 font-bold text-lg">$2.5M</div>
-                          <div className="text-xs text-slate-400">Revenue</div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mb-3">
+                        <div className="bg-slate-700/50 rounded-lg p-2 text-center">
+                          <div className="text-amber-400 font-bold text-sm">142%</div>
+                          <div className="text-[10px] text-slate-400">Quota</div>
                         </div>
-                        <div className="bg-slate-700/50 rounded-lg p-3 text-center">
-                          <div className="text-amber-400 font-bold text-lg">45+</div>
-                          <div className="text-xs text-slate-400">Deals</div>
+                        <div className="bg-slate-700/50 rounded-lg p-2 text-center">
+                          <div className="text-amber-400 font-bold text-sm">$2.8M</div>
+                          <div className="text-[10px] text-slate-400">Revenue</div>
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <div className="h-3 w-full bg-slate-700/50 rounded" />
-                        <div className="h-3 w-4/5 bg-slate-700/50 rounded" />
-                        <div className="h-3 w-3/4 bg-slate-700/50 rounded" />
+                        <div className="h-2 w-full bg-slate-700/50 rounded" />
+                        <div className="h-2 w-4/5 bg-slate-700/50 rounded" />
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <div className="flex-1 h-8 bg-amber-500/20 rounded" />
+                        <div className="flex-1 h-8 bg-slate-700/50 rounded" />
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* Laptop Base */}
-                <div className="bg-slate-700 h-4 rounded-b-lg mx-8" />
-                <div className="bg-slate-600 h-2 rounded-b-xl mx-16" />
               </div>
             </motion.div>
           </div>
