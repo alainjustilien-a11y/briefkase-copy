@@ -6,6 +6,12 @@ import { X, Check } from "lucide-react";
 
 const templates = [
   {
+    id: 'briefkase_premium',
+    name: 'Briefkase Premium',
+    description: 'Full sales portfolio',
+    colors: ['bg-slate-900', 'bg-amber-500']
+  },
+  {
     id: 'executive',
     name: 'Executive',
     description: 'Dark & professional',
