@@ -12,6 +12,7 @@ import PaginatedTemplate from "../components/portfolio-templates/PaginatedTempla
 import MinimalistTemplate from "../components/portfolio-templates/MinimalistTemplate";
 import DarkAnimatedTemplate from "../components/portfolio-templates/DarkAnimatedTemplate";
 import VideoBackgroundTemplate from "../components/portfolio-templates/VideoBackgroundTemplate";
+import BriefkasePremiumTemplate from "../components/portfolio-templates/BriefkasePremiumTemplate";
 import TemplateSwitcher from "../components/portfolio/TemplateSwitcher";
 
 const templates = {
@@ -25,6 +26,7 @@ const templates = {
   minimalist: MinimalistTemplate,
   dark_animated: DarkAnimatedTemplate,
   video_background: VideoBackgroundTemplate,
+  briefkase_premium: BriefkasePremiumTemplate,
 };
 
 export default function Portfolio() {
