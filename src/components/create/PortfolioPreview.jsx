@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Save, X, Plus, Trash2 } from "lucide-react";
+import { Save, X, Plus, Trash2, BookOpen } from "lucide-react";
 
 export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
   const [editedData, setEditedData] = useState(data);
@@ -368,6 +368,210 @@ export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
                 </Card>
               ))}
             </div>
+          </div>
+
+          {/* Case Study */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <BookOpen className="w-5 h-5 text-amber-500" />
+              <Label className="text-slate-700 font-semibold">Case Study (Optional)</Label>
+            </div>
+            <p className="text-sm text-slate-500 mb-4">Tell the story of your biggest sales win</p>
+            
+            <Card className="p-6 bg-gradient-to-br from-slate-50 to-amber-50/30 border-amber-200">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-slate-600 text-sm mb-1">Case Study Headline</Label>
+                  <Input
+                    placeholder="e.g., Closed $2.4M Enterprise Deal in 6 Months"
+                    value={editedData.case_study?.headline || ''}
+                    onChange={(e) => {
+                      setEditedData(prev => ({
+                        ...prev,
+                        case_study: { ...prev.case_study, headline: e.target.value }
+                      }));
+                    }}
+                    className="rounded-lg font-semibold"
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-slate-600 text-sm mb-1">Client Challenge/Goal</Label>
+                    <Textarea
+                      placeholder="What problem was the client trying to solve?"
+                      value={editedData.case_study?.challenge || ''}
+                      onChange={(e) => {
+                        setEditedData(prev => ({
+                          ...prev,
+                          case_study: { ...prev.case_study, challenge: e.target.value }
+                        }));
+                      }}
+                      className="rounded-lg min-h-20"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-slate-600 text-sm mb-1">Solution You Sold</Label>
+                    <Textarea
+                      placeholder="What product/solution did you provide?"
+                      value={editedData.case_study?.solution || ''}
+                      onChange={(e) => {
+                        setEditedData(prev => ({
+                          ...prev,
+                          case_study: { ...prev.case_study, solution: e.target.value }
+                        }));
+                      }}
+                      className="rounded-lg min-h-20"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-slate-600 text-sm mb-1">Your Role</Label>
+                  <Input
+                    placeholder="e.g., Lead Account Executive, Strategic AE"
+                    value={editedData.case_study?.role || ''}
+                    onChange={(e) => {
+                      setEditedData(prev => ({
+                        ...prev,
+                        case_study: { ...prev.case_study, role: e.target.value }
+                      }));
+                    }}
+                    className="rounded-lg"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-slate-600 text-sm mb-1">Strategy & Actions</Label>
+                  <Textarea
+                    placeholder="What specific actions did you take to win this deal?"
+                    value={editedData.case_study?.actions || ''}
+                    onChange={(e) => {
+                      setEditedData(prev => ({
+                        ...prev,
+                        case_study: { ...prev.case_study, actions: e.target.value }
+                      }));
+                    }}
+                    className="rounded-lg min-h-24"
+                  />
+                </div>
+
+                <div>
+                  <Label className="text-slate-600 text-sm mb-1">Challenges & How You Overcame Them</Label>
+                  <Textarea
+                    placeholder="What obstacles did you face and how did you navigate them?"
+                    value={editedData.case_study?.obstacles || ''}
+                    onChange={(e) => {
+                      setEditedData(prev => ({
+                        ...prev,
+                        case_study: { ...prev.case_study, obstacles: e.target.value }
+                      }));
+                    }}
+                    className="rounded-lg min-h-20"
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-slate-600 text-sm mb-1">Key Metrics / Measurable Results</Label>
+                    <Textarea
+                      placeholder="e.g., $2.4M contract, 85% adoption rate, 3x ROI"
+                      value={editedData.case_study?.metrics || ''}
+                      onChange={(e) => {
+                        setEditedData(prev => ({
+                          ...prev,
+                          case_study: { ...prev.case_study, metrics: e.target.value }
+                        }));
+                      }}
+                      className="rounded-lg min-h-20"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-slate-600 text-sm mb-1">Client Impact / Outcome</Label>
+                    <Textarea
+                      placeholder="What was the impact on the client's business?"
+                      value={editedData.case_study?.impact || ''}
+                      onChange={(e) => {
+                        setEditedData(prev => ({
+                          ...prev,
+                          case_study: { ...prev.case_study, impact: e.target.value }
+                        }));
+                      }}
+                      className="rounded-lg min-h-20"
+                    />
+                  </div>
+                </div>
+
+                {/* Results Metrics */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <Label className="text-slate-600 text-sm">Results Metrics (for display)</Label>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => {
+                        const currentResults = editedData.case_study?.results || [];
+                        setEditedData(prev => ({
+                          ...prev,
+                          case_study: {
+                            ...prev.case_study,
+                            results: [...currentResults, { metric: '', label: '' }]
+                          }
+                        }));
+                      }}
+                      className="rounded-lg text-xs"
+                    >
+                      <Plus className="w-3 h-3 mr-1" /> Add Metric
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    {(editedData.case_study?.results || []).map((result, index) => (
+                      <div key={index} className="bg-white rounded-lg p-3 border border-slate-200">
+                        <Input
+                          placeholder="$2.4M"
+                          value={result.metric}
+                          onChange={(e) => {
+                            const newResults = [...(editedData.case_study?.results || [])];
+                            newResults[index] = { ...newResults[index], metric: e.target.value };
+                            setEditedData(prev => ({
+                              ...prev,
+                              case_study: { ...prev.case_study, results: newResults }
+                            }));
+                          }}
+                          className="border-0 p-0 h-auto text-amber-600 font-bold text-center focus-visible:ring-0 mb-1"
+                        />
+                        <Input
+                          placeholder="Label"
+                          value={result.label}
+                          onChange={(e) => {
+                            const newResults = [...(editedData.case_study?.results || [])];
+                            newResults[index] = { ...newResults[index], label: e.target.value };
+                            setEditedData(prev => ({
+                              ...prev,
+                              case_study: { ...prev.case_study, results: newResults }
+                            }));
+                          }}
+                          className="border-0 p-0 h-auto text-slate-500 text-xs text-center focus-visible:ring-0"
+                        />
+                        <button
+                          onClick={() => {
+                            const newResults = (editedData.case_study?.results || []).filter((_, i) => i !== index);
+                            setEditedData(prev => ({
+                              ...prev,
+                              case_study: { ...prev.case_study, results: newResults }
+                            }));
+                          }}
+                          className="text-slate-300 hover:text-red-500 mt-1 w-full flex justify-center"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
 
