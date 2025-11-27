@@ -669,7 +669,12 @@ export default function Home() {
           </motion.h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {['Executive', 'Modern', 'Creative', 'Professional Blue'].map((template, i) => (
+            {[
+              { name: 'Executive', colors: ['from-slate-900', 'to-slate-800'], accent: 'bg-amber-400' },
+              { name: 'Modern', colors: ['from-blue-500', 'to-purple-600'], accent: 'bg-white' },
+              { name: 'Creative', colors: ['from-pink-500', 'to-orange-500'], accent: 'bg-white' },
+              { name: 'Professional Blue', colors: ['from-blue-700', 'to-blue-900'], accent: 'bg-yellow-400' }
+            ].map((template, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -679,15 +684,42 @@ export default function Home() {
               >
                 <Link to={createPageUrl("Dashboard")}>
                   <Card className="bg-slate-100 border-slate-200 overflow-hidden hover:border-amber-500 transition-all cursor-pointer group hover:shadow-lg">
-                    <div className="aspect-[3/4] bg-gradient-to-br from-slate-200 to-slate-100 relative overflow-hidden">
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-2xl font-bold text-slate-400 group-hover:text-amber-500 transition-colors text-center px-4">
-                          {template}
-                        </span>
+                    <div className={`aspect-[3/4] bg-gradient-to-br ${template.colors[0]} ${template.colors[1]} relative overflow-hidden p-4`}>
+                      {/* Mini Portfolio Preview */}
+                      <div className="h-full flex flex-col">
+                        {/* Header */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className={`w-8 h-8 rounded-full ${template.accent}`} />
+                          <div className="flex-1">
+                            <div className="h-2 w-16 bg-white/30 rounded mb-1" />
+                            <div className="h-1.5 w-12 bg-white/20 rounded" />
+                          </div>
+                        </div>
+                        {/* KPI Grid */}
+                        <div className="grid grid-cols-2 gap-1.5 mb-3">
+                          {[1,2,3,4].map(n => (
+                            <div key={n} className="bg-white/10 rounded p-1.5 text-center">
+                              <div className={`text-xs font-bold ${template.accent === 'bg-amber-400' ? 'text-amber-400' : template.accent === 'bg-yellow-400' ? 'text-yellow-400' : 'text-white'}`}>
+                                {['142%', '$2.8M', '$5.2M', '34%'][n-1]}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        {/* Content Lines */}
+                        <div className="flex-1 space-y-1.5">
+                          <div className="h-1.5 w-full bg-white/20 rounded" />
+                          <div className="h-1.5 w-4/5 bg-white/20 rounded" />
+                          <div className="h-1.5 w-3/4 bg-white/20 rounded" />
+                        </div>
+                        {/* Footer */}
+                        <div className="flex gap-1.5 mt-2">
+                          <div className={`flex-1 h-6 ${template.accent} rounded opacity-80`} />
+                          <div className="flex-1 h-6 bg-white/20 rounded" />
+                        </div>
                       </div>
                     </div>
                     <div className="p-4 bg-white">
-                      <h3 className="text-lg font-semibold text-slate-900 mb-2">{template}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">{template.name}</h3>
                       <span className="text-amber-500 hover:text-amber-600 flex items-center text-sm font-medium">
                         View Template <ArrowRight className="w-4 h-4 ml-2" />
                       </span>
