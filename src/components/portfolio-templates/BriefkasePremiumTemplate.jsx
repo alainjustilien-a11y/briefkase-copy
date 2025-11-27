@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { 
   Mail, Phone, Briefcase, TrendingUp, DollarSign, Target, Award,
   CheckCircle, Building, Calendar, ArrowRight, Palette, BarChart3,
-  PieChart, Users, Zap, MessageSquare, Database, Globe, Settings
+  PieChart, Users, Zap, MessageSquare, Database, Globe, Settings, Pencil
 } from "lucide-react";
 
 // Cover Page Component
@@ -280,8 +280,8 @@ const DealWinsPage = ({ person }) => {
 };
 
 // Case Study Page Component
-const CaseStudyPage = ({ person }) => {
-  const caseStudy = {
+const CaseStudyPage = ({ person, onEditCaseStudy }) => {
+  const defaultCaseStudy = {
     problem: "Enterprise client struggling with legacy system migration, causing 40% productivity loss across 500+ users.",
     strategy: "Developed phased implementation approach with dedicated success team and custom training program.",
     execution: "Led cross-functional team of 8 through 6-month deployment with weekly stakeholder reviews.",
@@ -292,6 +292,9 @@ const CaseStudyPage = ({ person }) => {
       { metric: "40%", label: "Efficiency Gain" },
     ]
   };
+
+  const caseStudy = person.case_study || defaultCaseStudy;
+  const hasCustomCaseStudy = !!person.case_study;
 
   return (
     <section className="min-h-screen bg-white py-20 px-6">
@@ -304,8 +307,22 @@ const CaseStudyPage = ({ person }) => {
         >
           <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Case Study
+            {caseStudy.client_name && (
+              <span className="block text-xl text-slate-500 font-normal mt-2">{caseStudy.client_name}</span>
+            )}
           </h2>
-          <div className="w-20 h-1 bg-amber-500 mx-auto" />
+          <div className="w-20 h-1 bg-amber-500 mx-auto mb-4" />
+          {onEditCaseStudy && (
+            <Button
+              onClick={onEditCaseStudy}
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+            >
+              <Pencil className="w-3 h-3 mr-2" />
+              {hasCustomCaseStudy ? 'Edit Case Study' : 'Add Your Case Study'}
+            </Button>
+          )}
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -337,7 +354,7 @@ const CaseStudyPage = ({ person }) => {
         >
           <h3 className="text-xl font-bold text-white mb-8 text-center">The Results</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {caseStudy.results.map((result, i) => (
+            {(caseStudy.results || defaultCaseStudy.results).map((result, i) => (
               <div key={i} className="text-center">
                 <div className="text-4xl md:text-5xl font-bold text-amber-400 mb-2">{result.metric}</div>
                 <div className="text-slate-400">{result.label}</div>
@@ -527,13 +544,13 @@ const ContactPage = ({ person, onChangeTemplate }) => {
 };
 
 // Main Template Component
-export default function BriefkasePremiumTemplate({ person, onChangeTemplate }) {
+export default function BriefkasePremiumTemplate({ person, onChangeTemplate, onEditCaseStudy }) {
   return (
     <div className="bg-white">
       <CoverPage person={person} />
       <DashboardPage person={person} />
       <DealWinsPage person={person} />
-      <CaseStudyPage person={person} />
+      <CaseStudyPage person={person} onEditCaseStudy={onEditCaseStudy} />
       <SkillsToolsPage person={person} />
       <ContactPage person={person} onChangeTemplate={onChangeTemplate} />
     </div>
