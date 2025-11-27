@@ -5,6 +5,13 @@ import { Check } from "lucide-react";
 
 const templates = [
   {
+    id: 'briefkase_premium',
+    name: 'Briefkase Premium',
+    description: 'Full sales portfolio with dashboard & case studies',
+    colors: ['bg-slate-900', 'bg-white', 'bg-amber-500'],
+    preview: 'Cover, Dashboard, Deal Wins, Case Study, Skills, Contact'
+  },
+  {
     id: 'executive',
     name: 'Executive',
     description: 'Dark, sophisticated and professional',
