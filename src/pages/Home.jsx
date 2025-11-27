@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,8 +11,6 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -540,20 +538,14 @@ export default function Home() {
               Free Sales Portfolio Template
             </h2>
             <p className="text-xl text-slate-300 mb-8">
-              Download the top-performing layout recruiters love — free.
+              Get the portfolio template that gets sales pros hired faster — free.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white border-0 text-slate-900 placeholder:text-slate-500 py-6 rounded-xl"
-              />
-              <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-900 font-bold px-8 py-6 rounded-xl whitespace-nowrap">
+            <Link to={createPageUrl("LeadCapture")}>
+              <Button className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-900 font-bold px-8 py-6 rounded-xl">
                 Get My Free Template
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </div>
+            </Link>
           </motion.div>
         </div>
       </section>
