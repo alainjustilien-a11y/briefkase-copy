@@ -2,6 +2,7 @@ import React from "react";
 import { Mail, Phone, Award, Briefcase, GraduationCap, Target, Zap, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function BoldTemplate({ person, onChangeTemplate }) {
   return (
@@ -274,6 +275,9 @@ export default function BoldTemplate({ person, onChangeTemplate }) {
           </div>
         </div>
       </div>
+
+      {/* Thank You Section */}
+      <ThankYouSection person={person} variant="dark" />
     </div>
   );
 }

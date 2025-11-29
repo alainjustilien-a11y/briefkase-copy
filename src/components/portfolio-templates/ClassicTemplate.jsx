@@ -2,6 +2,7 @@ import React from "react";
 import { Mail, Phone, Award, Briefcase, GraduationCap, MapPin, Globe, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function ClassicTemplate({ person, onChangeTemplate }) {
   return (
@@ -186,6 +187,9 @@ export default function ClassicTemplate({ person, onChangeTemplate }) {
             </div>
           </div>
         </motion.div>
+
+        {/* Thank You Section */}
+        <ThankYouSection person={person} variant="light" />
       </div>
     </div>
   );

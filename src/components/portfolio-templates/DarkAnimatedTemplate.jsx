@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Palette, Sparkles } from "lucide-react";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function DarkAnimatedTemplate({ person, onChangeTemplate }) {
   const containerVariants = {
@@ -272,6 +273,9 @@ export default function DarkAnimatedTemplate({ person, onChangeTemplate }) {
             </div>
           </motion.section>
         )}
+
+        {/* Thank You Section */}
+        <ThankYouSection person={person} variant="dark" />
       </div>
     </div>
   );

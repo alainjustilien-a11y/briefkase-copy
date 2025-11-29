@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Palette } from "lucide-react";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function MinimalistTemplate({ person, onChangeTemplate }) {
   return (
@@ -169,6 +170,9 @@ export default function MinimalistTemplate({ person, onChangeTemplate }) {
             </div>
           </motion.section>
         )}
+
+        {/* Thank You Section */}
+        <ThankYouSection person={person} variant="light" />
       </div>
     </div>
   );
