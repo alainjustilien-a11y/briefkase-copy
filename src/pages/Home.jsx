@@ -19,20 +19,25 @@ export default function Home() {
     <div className="min-h-screen bg-white">
       {/* HERO SECTION - Left/Right Split */}
       <section className="min-h-screen flex items-center px-6 py-20 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
-        </div>
+                    <div className="absolute inset-0 overflow-hidden">
+                      <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+                      <div className="absolute bottom-20 left-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+                    </div>
 
-        <div className="max-w-7xl mx-auto relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Content */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    <div className="max-w-7xl mx-auto relative z-10 w-full">
+                      <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        {/* Left: Content */}
+                        <motion.div
+                          initial={{ opacity: 0, x: -30 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.8 }}
+                        >
+                          <img 
+                            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/85a82ec1f_goldblackminimalistchessknightlogodesign3.png"
+                            alt="Briefkase"
+                            className="h-16 mb-6"
+                          />
+                          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                 Stand Out. Get More Interviews.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
                   Close Your Next Job Faster.
@@ -777,9 +782,9 @@ export default function Home() {
               className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-12 flex items-center justify-center"
             >
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/9e08195bb_riefKase1.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/85a82ec1f_goldblackminimalistchessknightlogodesign3.png"
                 alt="Briefkase"
-                className="h-16"
+                className="h-24"
               />
             </motion.div>
 
@@ -818,9 +823,9 @@ export default function Home() {
             {/* Right: Brand Statement */}
             <div className="text-right">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/9e08195bb_riefKase1.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/85a82ec1f_goldblackminimalistchessknightlogodesign3.png"
                 alt="Briefkase"
-                className="h-8 ml-auto mb-2"
+                className="h-12 ml-auto mb-2"
               />
               <p className="text-slate-500 text-sm">Stand out. Get hired.</p>
             </div>
