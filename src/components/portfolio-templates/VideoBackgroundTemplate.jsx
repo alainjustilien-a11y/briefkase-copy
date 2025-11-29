@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, Palette } from "lucide-react";
+import { Mail, Phone, Palette, Award, Briefcase } from "lucide-react";
 
 export default function VideoBackgroundTemplate({ person, onChangeTemplate }) {
   return (
@@ -278,6 +278,48 @@ export default function VideoBackgroundTemplate({ person, onChangeTemplate }) {
             </div>
           </section>
         )}
+
+        {/* Thank You Section */}
+        <section className="min-h-screen flex items-center justify-center px-8 py-20 relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="text-center max-w-4xl"
+          >
+            <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg flex items-center justify-center border border-white/30">
+              <Award className="w-12 h-12 text-white" />
+            </div>
+            <h2 className="text-6xl font-bold text-white mb-4">Thank You</h2>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-12 h-0.5 bg-white/50" />
+              <span className="text-white/70 font-medium tracking-widest uppercase text-sm">For Your Time</span>
+              <div className="w-12 h-0.5 bg-white/50" />
+            </div>
+            <p className="text-2xl text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+              I appreciate you taking the time to review my portfolio. I'm excited about the opportunity to bring my experience and results-driven approach to your team.
+            </p>
+            <p className="text-xl text-white/60 mb-12">— {person.full_name}</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {person.email && (
+                <a href={`mailto:${person.email}`}>
+                  <Button size="lg" className="bg-white text-black hover:bg-white/90 rounded-full px-8 py-6 text-lg font-semibold">
+                    <Mail className="w-5 h-5 mr-2" />
+                    Get in Touch
+                  </Button>
+                </a>
+              )}
+              {person.resume_url && (
+                <a href={person.resume_url} target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white/10 rounded-full px-8 py-6 text-lg font-semibold">
+                    <Briefcase className="w-5 h-5 mr-2" />
+                    Download Resume
+                  </Button>
+                </a>
+              )}
+            </div>
+          </motion.div>
+        </section>
       </div>
     </div>
   );

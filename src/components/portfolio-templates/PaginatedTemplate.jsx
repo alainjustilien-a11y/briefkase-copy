@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Mail, Phone, FileText, Award, Briefcase, GraduationCap, Target } from "lucide-react";
+import { ChevronLeft, ChevronRight, Mail, Phone, FileText, Award, Briefcase, GraduationCap, Target, Heart } from "lucide-react";
 
 export default function PaginatedTemplate({ person, onChangeTemplate }) {
   const [currentPage, setCurrentPage] = useState(0);
@@ -201,7 +201,58 @@ export default function PaginatedTemplate({ person, onChangeTemplate }) {
           </div>
         </div>
       )
-    }] : [])
+    }] : []),
+    // Thank You Page
+    {
+      id: 'thank_you',
+      title: 'Thank You',
+      icon: Heart,
+      render: () => (
+        <div className="min-h-screen p-12 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 border border-white rounded-full" />
+            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-white rounded-full" />
+          </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center relative z-10"
+          >
+            <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl">
+              <Heart className="w-12 h-12 text-white" />
+            </div>
+            <h2 className="text-6xl font-bold text-white mb-4">Thank You</h2>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="w-12 h-0.5 bg-indigo-500" />
+              <span className="text-indigo-400 font-medium tracking-widest uppercase text-sm">For Your Time</span>
+              <div className="w-12 h-0.5 bg-indigo-500" />
+            </div>
+            <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              I appreciate you taking the time to review my portfolio. I'm excited about the opportunity to bring my experience and results-driven approach to your team.
+            </p>
+            <p className="text-lg text-slate-400 mb-12">— {person.full_name}</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {person.email && (
+                <a href={`mailto:${person.email}`}>
+                  <Button className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-8 py-4 rounded-full font-semibold">
+                    <Mail className="w-5 h-5 mr-2" />
+                    Get in Touch
+                  </Button>
+                </a>
+              )}
+              {person.resume_url && (
+                <a href={person.resume_url} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="border-2 border-indigo-500 text-indigo-400 hover:bg-indigo-500/10 px-8 py-4 rounded-full font-semibold">
+                    <Briefcase className="w-5 h-5 mr-2" />
+                    Download Resume
+                  </Button>
+                </a>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )
+    }
   ];
 
   const nextPage = () => {
