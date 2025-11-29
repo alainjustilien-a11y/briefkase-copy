@@ -33,10 +33,10 @@ export default function Home() {
                           transition={{ duration: 0.8 }}
                         >
                           <img 
-                            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/85a82ec1f_goldblackminimalistchessknightlogodesign3.png"
-                            alt="Briefkase"
-                            className="h-16 mb-6"
-                          />
+                                                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/691bdb06ad7d9d6aed9c3e5c/85a82ec1f_goldblackminimalistchessknightlogodesign3.png"
+                                                alt="Briefkase"
+                                                className="h-16 mb-6 invert"
+                                              />
                           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                 Stand Out. Get More Interviews.{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
