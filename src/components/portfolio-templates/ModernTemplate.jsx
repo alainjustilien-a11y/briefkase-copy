@@ -3,6 +3,7 @@ import { Mail, Phone, Award, Briefcase, GraduationCap, Target, ExternalLink, Pal
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function ModernTemplate({ person, onChangeTemplate }) {
   return (
@@ -225,6 +226,9 @@ export default function ModernTemplate({ person, onChangeTemplate }) {
             </motion.div>
           )}
         </div>
+
+        {/* Thank You Section */}
+        <ThankYouSection person={person} variant="gradient" />
       </div>
     </div>
   );

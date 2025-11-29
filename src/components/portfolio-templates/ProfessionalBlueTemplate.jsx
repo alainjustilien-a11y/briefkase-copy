@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Palette, Award, Target, TrendingUp } from "lucide-react";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function ProfessionalBlueTemplate({ person, onChangeTemplate }) {
   return (
@@ -375,38 +376,8 @@ export default function ProfessionalBlueTemplate({ person, onChangeTemplate }) {
         </section>
       )}
 
-      {/* CTA Footer */}
-      <section className="bg-gradient-to-br from-blue-700 via-blue-800 to-blue-900 text-white py-16 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl font-bold mb-6">Let's Connect</h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Ready to take your business to the next level? Get in touch today.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {person.email && (
-                <a href={`mailto:${person.email}`}>
-                  <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 font-semibold text-lg">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Contact Me
-                  </Button>
-                </a>
-              )}
-              {person.resume_url && (
-                <a href={person.resume_url} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-blue-700 text-lg">
-                    View Resume
-                  </Button>
-                </a>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* Thank You Section */}
+      <ThankYouSection person={person} variant="blue" />
     </div>
   );
 }

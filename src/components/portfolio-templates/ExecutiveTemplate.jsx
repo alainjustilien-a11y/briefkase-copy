@@ -2,6 +2,7 @@ import React from "react";
 import { Mail, Phone, Award, Briefcase, GraduationCap, Target, ExternalLink, Palette } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import ThankYouSection from "../portfolio/ThankYouSection";
 
 export default function ExecutiveTemplate({ person, onChangeTemplate }) {
   return (
@@ -222,33 +223,8 @@ export default function ExecutiveTemplate({ person, onChangeTemplate }) {
         </div>
       </div>
 
-      {/* Footer CTA */}
-      <div className="bg-gradient-to-br from-slate-900 to-slate-800 py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Let's Connect</h2>
-          <p className="text-slate-300 text-xl mb-8">
-            Ready to discuss how I can help drive your sales success?
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            {person.email && (
-              <a href={`mailto:${person.email}`}>
-                <Button className="bg-amber-400 text-slate-900 hover:bg-amber-500 rounded-xl px-8 py-6 text-lg">
-                  <Mail className="w-5 h-5 mr-2" />
-                  Send Email
-                </Button>
-              </a>
-            )}
-            {person.resume_url && (
-              <a href={person.resume_url} target="_blank" rel="noopener noreferrer">
-                <Button variant="outline" className="border-white text-white hover:bg-white/10 rounded-xl px-8 py-6 text-lg">
-                  <ExternalLink className="w-5 h-5 mr-2" />
-                  View Resume
-                </Button>
-              </a>
-            )}
-          </div>
-        </div>
-      </div>
+      {/* Thank You Section */}
+      <ThankYouSection person={person} variant="dark" />
     </div>
   );
 }
