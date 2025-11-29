@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { 
   Mail, Phone, Briefcase, TrendingUp, DollarSign, Target, Award,
   CheckCircle, Building, Calendar, ArrowRight, Palette, BarChart3,
-  PieChart, Users, Zap, MessageSquare, Database, Globe, Settings, Pencil
+  PieChart, Users, Zap, MessageSquare, Database, Globe, Settings, Pencil,
+  Heart, Music, Camera, Gamepad2, BookOpen, Dumbbell, Plane, Coffee
 } from "lucide-react";
 
 // Cover Page Component
@@ -523,6 +524,58 @@ const SkillsToolsPage = ({ person }) => {
   );
 };
 
+// Hobbies Page Component
+const HobbiesPage = ({ person }) => {
+  const hobbies = person.hobbies || [];
+  
+  // Default hobby icons - cycle through them
+  const hobbyIcons = [Music, Camera, Gamepad2, BookOpen, Dumbbell, Plane, Coffee, Heart];
+  
+  if (hobbies.length === 0) return null;
+
+  return (
+    <section className="min-h-screen bg-slate-50 py-20 px-6">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
+            Beyond Work
+          </h2>
+          <div className="w-20 h-1 bg-amber-500 mx-auto mb-4" />
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+            When I'm not closing deals, you'll find me...
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {hobbies.map((hobby, i) => {
+            const IconComponent = hobbyIcons[i % hobbyIcons.length];
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition-shadow"
+              >
+                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center mx-auto mb-4">
+                  <IconComponent className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{hobby}</h3>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // Contact Page Component
 const ContactPage = ({ person }) => {
   return (
@@ -684,6 +737,7 @@ export default function BriefkasePremiumTemplate({ person, onChangeTemplate, onE
       <DealWinsPage person={person} />
       <CaseStudyPage person={person} onEditCaseStudy={onEditCaseStudy} />
       <SkillsToolsPage person={person} />
+      <HobbiesPage person={person} />
       <ContactPage person={person} />
       <ThankYouPage person={person} onChangeTemplate={onChangeTemplate} />
     </div>
