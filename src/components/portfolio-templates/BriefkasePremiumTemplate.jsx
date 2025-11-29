@@ -524,7 +524,7 @@ const SkillsToolsPage = ({ person }) => {
 };
 
 // Contact Page Component
-const ContactPage = ({ person, onChangeTemplate }) => {
+const ContactPage = ({ person }) => {
   return (
     <section className="min-h-screen bg-white py-20 px-6 flex items-center">
       <div className="max-w-4xl mx-auto w-full">
@@ -586,17 +586,90 @@ const ContactPage = ({ person, onChangeTemplate }) => {
           {/* Gold Accent Line */}
           <div className="w-20 h-1 bg-amber-500 mx-auto mt-12" />
         </motion.div>
+      </div>
+    </section>
+  );
+};
 
-        {/* Change Template Button */}
-        <div className="fixed bottom-6 right-6 z-50">
-          <Button
-            onClick={onChangeTemplate}
-            className="bg-white text-slate-900 shadow-lg hover:shadow-xl rounded-full px-6"
-          >
-            <Palette className="w-4 h-4 mr-2" />
-            Change Template
-          </Button>
+// Thank You Page Component
+const ThankYouPage = ({ person, onChangeTemplate }) => {
+  const firstName = person.full_name?.split(' ')[0] || 'there';
+  
+  return (
+    <section className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 border border-amber-400 rounded-full" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-amber-400 rounded-full" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="text-center relative z-10 px-6"
+      >
+        {/* Thank You Icon */}
+        <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-2xl shadow-amber-500/20">
+          <Award className="w-12 h-12 text-slate-900" />
         </div>
+
+        {/* Thank You Message */}
+        <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
+          Thank You
+        </h2>
+        
+        <div className="flex items-center justify-center gap-3 mb-6">
+          <div className="w-12 h-0.5 bg-amber-500" />
+          <span className="text-amber-400 font-medium tracking-widest uppercase text-sm">
+            For Your Time
+          </span>
+          <div className="w-12 h-0.5 bg-amber-500" />
+        </div>
+
+        <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+          I appreciate you taking the time to review my portfolio. I'm excited about the opportunity to bring my experience and results-driven approach to your team.
+        </p>
+
+        <p className="text-lg text-slate-400 mb-12">
+          — {person.full_name}
+        </p>
+
+        {/* Contact CTA */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          {person.email && (
+            <a 
+              href={`mailto:${person.email}`}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 px-8 py-4 rounded-xl font-semibold hover:from-amber-600 hover:to-amber-700 transition-all"
+            >
+              <Mail className="w-5 h-5" />
+              Get in Touch
+            </a>
+          )}
+          {person.resume_url && (
+            <a 
+              href={person.resume_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-2 border-amber-500 text-amber-400 px-8 py-4 rounded-xl font-semibold hover:bg-amber-500/10 transition-all"
+            >
+              <Briefcase className="w-5 h-5" />
+              Download Resume
+            </a>
+          )}
+        </div>
+      </motion.div>
+
+      {/* Change Template Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={onChangeTemplate}
+          className="bg-white text-slate-900 shadow-lg hover:shadow-xl rounded-full px-6"
+        >
+          <Palette className="w-4 h-4 mr-2" />
+          Change Template
+        </Button>
       </div>
     </section>
   );
@@ -611,7 +684,8 @@ export default function BriefkasePremiumTemplate({ person, onChangeTemplate, onE
       <DealWinsPage person={person} />
       <CaseStudyPage person={person} onEditCaseStudy={onEditCaseStudy} />
       <SkillsToolsPage person={person} />
-      <ContactPage person={person} onChangeTemplate={onChangeTemplate} />
+      <ContactPage person={person} />
+      <ThankYouPage person={person} onChangeTemplate={onChangeTemplate} />
     </div>
   );
 }
