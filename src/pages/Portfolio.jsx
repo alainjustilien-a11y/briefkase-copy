@@ -15,6 +15,7 @@ import VideoBackgroundTemplate from "../components/portfolio-templates/VideoBack
 import BriefkasePremiumTemplate from "../components/portfolio-templates/BriefkasePremiumTemplate";
 import TemplateSwitcher from "../components/portfolio/TemplateSwitcher";
 import CaseStudyForm from "../components/portfolio/CaseStudyForm";
+import PortfolioActions from "../components/portfolio/PortfolioActions";
 
 const templates = {
   executive: ExecutiveTemplate,
@@ -122,7 +123,9 @@ export default function Portfolio() {
         onChangeTemplate={() => setShowTemplateSwitcher(true)}
         onEditCaseStudy={templateKey === 'briefkase_premium' ? () => setShowCaseStudyForm(true) : undefined}
       />
-      
+
+      <PortfolioActions person={person} />
+
       {showTemplateSwitcher && (
         <TemplateSwitcher
           currentTemplate={templateKey}
@@ -141,4 +144,4 @@ export default function Portfolio() {
       )}
     </>
   );
-}
+  }
