@@ -37,9 +37,10 @@ const navigationItems = [
 export default function Layout({ children, currentPageName }) {
   const location = useLocation();
   const isPortfolioView = currentPageName === "Portfolio";
+  const isPortfolioSummary = currentPageName === "PortfolioSummary";
   const isHomeView = currentPageName === "Home";
 
-  if (isPortfolioView || isHomeView) {
+  if (isPortfolioView || isPortfolioSummary || isHomeView) {
     return <div className="min-h-screen">{children}</div>;
   }
 
