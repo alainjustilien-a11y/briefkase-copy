@@ -711,17 +711,15 @@ const ThankYouPage = ({ person, onChangeTemplate }) => {
               Download Resume
             </a>
           )}
-          {person.id && (
-            <a 
-              href={`/PortfolioSummary?id=${person.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border-2 border-amber-500 text-amber-400 px-8 py-4 rounded-xl font-semibold hover:bg-amber-500/10 transition-all"
-            >
-              <FileDown className="w-5 h-5" />
-              Download Portfolio
-            </a>
-          )}
+          <a 
+            href={`/PortfolioSummary?id=${new URLSearchParams(window.location.search).get('id')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border-2 border-amber-500 text-amber-400 px-8 py-4 rounded-xl font-semibold hover:bg-amber-500/10 transition-all"
+          >
+            <FileDown className="w-5 h-5" />
+            Download Portfolio
+          </a>
         </div>
       </motion.div>
 
