@@ -25,109 +25,34 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   const [sending, setSending] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  const handleDownloadImages = async () => {
+  const handleDownloadPDF = async () => {
     setDownloading(true);
-    toast.info("Preparing portfolio - this may take a moment...");
+    toast.info("Preparing portfolio for download...");
     
-    try {
-      // Scroll through entire page first to ensure all content is rendered
-      const scrollHeight = document.documentElement.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      
-      for (let i = 0; i < scrollHeight; i += viewportHeight) {
-        window.scrollTo(0, i);
-        await new Promise(r => setTimeout(r, 100));
-      }
-      window.scrollTo(0, 0);
-      await new Promise(r => setTimeout(r, 300));
-      
-      // Get all sections
-      const sections = document.querySelectorAll('section');
-      
-      if (sections.length === 0) {
-        toast.error("No sections found to download");
-        setDownloading(false);
-        return;
-      }
-
-      // Create a simple canvas-based screenshot for each section
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i];
-        
-        // Scroll section into view
-        section.scrollIntoView({ behavior: 'instant' });
-        await new Promise(r => setTimeout(r, 200));
-        
-        // Get section dimensions
-        const rect = section.getBoundingClientRect();
-        
-        // Create canvas matching section size
-        const canvas = document.createElement('canvas');
-        const scale = 2; // For higher quality
-        canvas.width = rect.width * scale;
-        canvas.height = rect.height * scale;
-        
-        const ctx = canvas.getContext('2d');
-        ctx.scale(scale, scale);
-        
-        // Draw background color
-        const computedStyle = window.getComputedStyle(section);
-        ctx.fillStyle = computedStyle.backgroundColor || '#ffffff';
-        ctx.fillRect(0, 0, rect.width, rect.height);
-        
-        // Use SVG foreignObject approach for better rendering
-        const data = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
-            <foreignObject width="100%" height="100%">
-              <div xmlns="http://www.w3.org/1999/xhtml">
-                ${section.outerHTML}
-              </div>
-            </foreignObject>
-          </svg>
-        `;
-        
-        const img = new window.Image();
-        const svgBlob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
-        const url = URL.createObjectURL(svgBlob);
-        
-        await new Promise((resolve, reject) => {
-          img.onload = () => {
-            ctx.drawImage(img, 0, 0);
-            URL.revokeObjectURL(url);
-            
-            // Download the canvas as JPEG
-            canvas.toBlob((blob) => {
-              if (blob) {
-                const downloadUrl = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_page_${i + 1}.jpg`;
-                link.href = downloadUrl;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(downloadUrl);
-              }
-              resolve();
-            }, 'image/jpeg', 0.9);
-          };
-          img.onerror = () => {
-            URL.revokeObjectURL(url);
-            resolve(); // Continue even if one fails
-          };
-          img.src = url;
-        });
-        
-        await new Promise(r => setTimeout(r, 300));
-      }
-      
-      window.scrollTo(0, 0);
-      toast.success(`Portfolio download complete!`);
-    } catch (error) {
-      console.error("Error downloading images:", error);
-      toast.error("Download failed. Try using Print / Save as PDF instead.");
+    // Scroll through entire page to render all content
+    const scrollHeight = document.documentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    
+    for (let i = 0; i < scrollHeight; i += viewportHeight) {
+      window.scrollTo(0, i);
+      await new Promise(r => setTimeout(r, 100));
     }
     
+    // Scroll back to top
+    window.scrollTo(0, 0);
+    await new Promise(r => setTimeout(r, 500));
+    
+    // Force all sections visible
+    document.querySelectorAll('section').forEach(section => {
+      section.style.opacity = '1';
+      section.style.transform = 'none';
+    });
+    
     setDownloading(false);
+    
+    // Open print dialog
+    toast.info("In the print dialog, select 'Save as PDF' as the destination");
+    setTimeout(() => window.print(), 200);
   };
 
   const handlePrint = () => {
