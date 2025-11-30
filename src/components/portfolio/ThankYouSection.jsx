@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Award, Mail, Briefcase } from "lucide-react";
+import { Award, Mail, Briefcase, FileDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function ThankYouSection({ person, variant = "dark" }) {
