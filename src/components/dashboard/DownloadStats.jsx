@@ -57,7 +57,7 @@ export default function DownloadStats() {
               <div className="text-xs text-slate-500">Print</div>
             </div>
             <div className="text-center p-3 bg-purple-50 rounded-xl">
-              <Image className="w-4 h-4 text-purple-500 mx-auto mb-1" />
+              <ImageIcon className="w-4 h-4 text-purple-500 mx-auto mb-1" />
               <div className="text-xl font-bold text-slate-900">{stats.images}</div>
               <div className="text-xs text-slate-500">Images</div>
             </div>
