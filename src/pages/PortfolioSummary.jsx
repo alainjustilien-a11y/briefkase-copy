@@ -11,13 +11,17 @@ export default function PortfolioSummary() {
   const urlParams = new URLSearchParams(window.location.search);
   const personId = urlParams.get('id');
 
-  const { data: person, isLoading } = useQuery({
-    queryKey: ['salesperson', personId],
+  const { data: person, isLoading, error } = useQuery({
+    queryKey: ['salesperson-summary', personId],
     queryFn: async () => {
       const people = await base44.entities.Salesperson.list();
-      return people.find(p => p.id === personId);
+      const found = people.find(p => p.id === personId);
+      if (!found) throw new Error('Not found');
+      return found;
     },
     enabled: !!personId,
+    retry: 1,
+    staleTime: 60000,
   });
 
   const handlePrint = () => {
