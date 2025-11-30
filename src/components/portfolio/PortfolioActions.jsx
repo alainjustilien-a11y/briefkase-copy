@@ -29,6 +29,20 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   const [generatedImages, setGeneratedImages] = useState([]);
   const [generatingPDF, setGeneratingPDF] = useState(false);
 
+  const trackDownload = async (downloadType) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const personId = urlParams.get('id');
+    try {
+      await base44.entities.PortfolioDownload.create({
+        portfolio_id: personId,
+        portfolio_name: person?.full_name || 'Unknown',
+        download_type: downloadType
+      });
+    } catch (err) {
+      console.error('Failed to track download:', err);
+    }
+  };
+
   const handleDirectPDF = async () => {
     setGeneratingPDF(true);
     toast.info("Generating PDF... This may take a few seconds.");
