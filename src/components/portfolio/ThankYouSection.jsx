@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Award, Mail, Briefcase, FileDown } from "lucide-react";
+import { Award, Mail, Briefcase, FileDown, Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25549073/ukizo90/";
 
 export default function ThankYouSection({ person, variant = "dark" }) {
   const isDark = variant === "dark";
