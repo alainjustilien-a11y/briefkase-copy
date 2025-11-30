@@ -32,18 +32,29 @@ export default function PortfolioActions({ person, portfolioUrl }) {
     const scrollHeight = document.documentElement.scrollHeight;
     const viewportHeight = window.innerHeight;
     
-    // Quick scroll through to trigger any lazy loading
+    // Quick scroll through to trigger any lazy loading and animations
     for (let i = 0; i < scrollHeight; i += viewportHeight) {
       window.scrollTo(0, i);
-      await new Promise(r => setTimeout(r, 100));
+      await new Promise(r => setTimeout(r, 150));
     }
     
     // Scroll back to top
     window.scrollTo(0, 0);
-    await new Promise(r => setTimeout(r, 300));
+    await new Promise(r => setTimeout(r, 500));
+    
+    // Force all sections to be visible before printing
+    const sections = document.querySelectorAll('section');
+    sections.forEach(section => {
+      section.style.opacity = '1';
+      section.style.transform = 'none';
+    });
     
     setDownloading(false);
-    window.print();
+    
+    // Use a slight delay to ensure styles are applied
+    setTimeout(() => {
+      window.print();
+    }, 100);
   };
 
   const handleCopyLink = () => {
