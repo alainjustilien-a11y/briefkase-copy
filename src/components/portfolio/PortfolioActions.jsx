@@ -292,18 +292,9 @@ The Briefkase Team
               <FileText className="w-4 h-4 mr-2" />
               Summary View (All Slides)
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDownloadImages} className="cursor-pointer" disabled={downloading}>
-              {downloading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Image className="w-4 h-4 mr-2" />
-                  Download as Images
-                </>
-              )}
+            <DropdownMenuItem onClick={handleDownloadImages} className="cursor-pointer">
+              <Image className="w-4 h-4 mr-2" />
+              Export for Canva (Images)
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleCopyLink} className="cursor-pointer">
