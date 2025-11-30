@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Download, Loader2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -10,19 +9,36 @@ import { toast } from "sonner";
 export default function PortfolioSummary() {
   const urlParams = new URLSearchParams(window.location.search);
   const personId = urlParams.get('id');
+  
+  const [person, setPerson] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const { data: person, isLoading, error } = useQuery({
-    queryKey: ['salesperson-summary', personId],
-    queryFn: async () => {
-      const people = await base44.entities.Salesperson.list();
-      const found = people.find(p => p.id === personId);
-      if (!found) throw new Error('Not found');
-      return found;
-    },
-    enabled: !!personId,
-    retry: 1,
-    staleTime: 60000,
-  });
+  useEffect(() => {
+    async function loadPerson() {
+      if (!personId) {
+        setError('No ID provided');
+        setIsLoading(false);
+        return;
+      }
+      
+      try {
+        const people = await base44.entities.Salesperson.list();
+        const found = people.find(p => p.id === personId);
+        if (found) {
+          setPerson(found);
+        } else {
+          setError('Portfolio not found');
+        }
+      } catch (err) {
+        console.error('Error loading portfolio:', err);
+        setError(err.message);
+      }
+      setIsLoading(false);
+    }
+    
+    loadPerson();
+  }, [personId]);
 
   const handlePrint = () => {
     toast.info("Select 'Save as PDF' in the print dialog");
@@ -31,7 +47,7 @@ export default function PortfolioSummary() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <Loader2 className="w-8 h-8 animate-spin text-amber-500" />
       </div>
     );
@@ -39,9 +55,9 @@ export default function PortfolioSummary() {
 
   if (error || !person) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <p className="text-lg text-slate-600 mb-4">Portfolio not found</p>
+          <p className="text-lg text-slate-600 mb-4">{error || 'Portfolio not found'}</p>
           <Link to={createPageUrl('Dashboard')}>
             <Button>Back to Dashboard</Button>
           </Link>
