@@ -281,39 +281,43 @@ export default function PortfolioSummary() {
       {/* All slides */}
       {pages}
 
-      {/* Print Styles */}
+      {/* Styles */}
       <style>{`
+        .slide {
+          width: 100vw;
+          height: 100vh;
+          min-height: 100vh;
+          max-height: 100vh;
+          overflow: hidden;
+          box-sizing: border-box;
+        }
+        
+        .no-print {
+          display: flex;
+        }
+        
         @media print {
-          .print\\:hidden {
+          .no-print {
             display: none !important;
           }
           
           html, body {
-            height: auto !important;
-            overflow: visible !important;
             margin: 0 !important;
             padding: 0 !important;
           }
           
-          .page-break {
-            display: block !important;
-            position: relative !important;
+          .slide {
+            width: 100vw !important;
+            height: 100vh !important;
             page-break-after: always !important;
             break-after: page !important;
             page-break-inside: avoid !important;
             break-inside: avoid !important;
-            min-height: 100vh !important;
-            height: auto !important;
-            overflow: visible !important;
           }
           
-          .page-break:last-child {
+          .slide:last-child {
             page-break-after: avoid !important;
             break-after: avoid !important;
-          }
-          
-          .page-break.flex {
-            display: flex !important;
           }
           
           * {
