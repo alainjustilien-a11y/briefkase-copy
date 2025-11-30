@@ -25,36 +25,72 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   const [sending, setSending] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  const handlePrint = async () => {
+  const handleDownloadImages = async () => {
     setDownloading(true);
+    toast.info("Preparing portfolio images...");
     
-    // Scroll through entire page to ensure all content is rendered
-    const scrollHeight = document.documentElement.scrollHeight;
-    const viewportHeight = window.innerHeight;
-    
-    // Quick scroll through to trigger any lazy loading and animations
-    for (let i = 0; i < scrollHeight; i += viewportHeight) {
-      window.scrollTo(0, i);
-      await new Promise(r => setTimeout(r, 150));
+    try {
+      // Dynamic import of html2canvas
+      const html2canvas = (await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.min.js')).default;
+      
+      // Scroll through entire page first to ensure all content is rendered
+      const scrollHeight = document.documentElement.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      
+      for (let i = 0; i < scrollHeight; i += viewportHeight) {
+        window.scrollTo(0, i);
+        await new Promise(r => setTimeout(r, 150));
+      }
+      window.scrollTo(0, 0);
+      await new Promise(r => setTimeout(r, 500));
+      
+      // Get all sections
+      const sections = document.querySelectorAll('section');
+      const images = [];
+      
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        
+        // Scroll section into view
+        section.scrollIntoView();
+        await new Promise(r => setTimeout(r, 300));
+        
+        // Capture the section
+        const canvas = await html2canvas(section, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: null,
+          logging: false,
+        });
+        
+        // Convert to blob and download
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_page_${i + 1}.jpg`;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        }, 'image/jpeg', 0.95);
+        
+        await new Promise(r => setTimeout(r, 500));
+      }
+      
+      window.scrollTo(0, 0);
+      toast.success(`Downloaded ${sections.length} portfolio pages!`);
+    } catch (error) {
+      console.error("Error downloading images:", error);
+      // Fallback to print
+      toast.info("Falling back to print mode...");
+      window.print();
     }
     
-    // Scroll back to top
-    window.scrollTo(0, 0);
-    await new Promise(r => setTimeout(r, 500));
-    
-    // Force all sections to be visible before printing
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-      section.style.opacity = '1';
-      section.style.transform = 'none';
-    });
-    
     setDownloading(false);
-    
-    // Use a slight delay to ensure styles are applied
-    setTimeout(() => {
-      window.print();
-    }, 100);
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   const handleCopyLink = () => {
