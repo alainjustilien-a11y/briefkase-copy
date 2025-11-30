@@ -185,30 +185,45 @@ The Briefkase Team
       {/* Print Styles */}
       <style>{`
         @media print {
+          * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+          }
           .fixed {
             display: none !important;
-          }
-          body {
-            print-color-adjust: exact;
-            -webkit-print-color-adjust: exact;
           }
           html, body {
             height: auto !important;
             overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          body > div {
+            height: auto !important;
+            overflow: visible !important;
           }
           section {
-            page-break-inside: avoid;
-            break-inside: avoid;
-          }
-          section.min-h-screen {
-            min-height: auto !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            display: block !important;
+            position: relative !important;
             height: auto !important;
-            page-break-after: always;
-            break-after: page;
+            min-height: 100vh !important;
+            page-break-after: always !important;
+            break-after: page !important;
           }
           section:last-of-type {
-            page-break-after: avoid;
-            break-after: avoid;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+          }
+          .min-h-screen {
+            min-height: 100vh !important;
+          }
+          /* Ensure backgrounds print */
+          div, section {
+            background-color: inherit !important;
+            background-image: inherit !important;
           }
         }
       `}</style>
