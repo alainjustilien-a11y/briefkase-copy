@@ -4,12 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { Plus, Users } from "lucide-react";
+import { Plus, Users, Download, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { motion } from "framer-motion";
 import PortfolioCard from "../components/dashboard/PortfolioCard";
 import StatsOverview from "../components/dashboard/StatsOverview";
 
 export default function Dashboard() {
+  const [downloadingAll, setDownloadingAll] = React.useState(false);
+
   const { data: salespeople, isLoading, error } = useQuery({
     queryKey: ['salespeople'],
     queryFn: () => base44.entities.Salesperson.list('-created_date'),
@@ -48,12 +51,41 @@ export default function Dashboard() {
               Showcase your team's excellence
             </p>
           </div>
-          <Link to={createPageUrl("CreatePortfolio")}>
-            <Button className="bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-6 rounded-xl">
-              <Plus className="w-5 h-5 mr-2" />
-              Create Portfolio
-            </Button>
-          </Link>
+          <div className="flex gap-3">
+            {salespeople.length > 0 && (
+              <Button 
+                variant="outline"
+                className="px-6 py-6 rounded-xl"
+                disabled={downloadingAll}
+                onClick={() => {
+                  setDownloadingAll(true);
+                  toast.info(`Opening ${salespeople.length} portfolios for PDF download...`);
+                  salespeople.forEach((person, i) => {
+                    setTimeout(() => {
+                      window.open(createPageUrl(`Portfolio?id=${person.id}`), '_blank');
+                    }, i * 500);
+                  });
+                  setTimeout(() => {
+                    setDownloadingAll(false);
+                    toast.success("Use Print > Save as PDF in each tab to download");
+                  }, salespeople.length * 500 + 500);
+                }}
+              >
+                {downloadingAll ? (
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                ) : (
+                  <Download className="w-5 h-5 mr-2" />
+                )}
+                Download All PDFs
+              </Button>
+            )}
+            <Link to={createPageUrl("CreatePortfolio")}>
+              <Button className="bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 px-6 py-6 rounded-xl">
+                <Plus className="w-5 h-5 mr-2" />
+                Create Portfolio
+              </Button>
+            </Link>
+          </div>
         </motion.div>
 
         <StatsOverview salespeople={salespeople} />
