@@ -115,6 +115,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
     
     // Open print dialog
     toast.info("In the print dialog, select 'Save as PDF' as the destination");
+    trackDownload('print');
     setTimeout(() => window.print(), 200);
   };
 
