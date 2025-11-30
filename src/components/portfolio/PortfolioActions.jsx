@@ -241,6 +241,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
       setDownloadProgress("");
       
       if (images.length > 0) {
+        await trackDownload('images');
         toast.success(`Captured ${images.length} portfolio pages!`);
       } else {
         toast.error("Could not capture any pages");
