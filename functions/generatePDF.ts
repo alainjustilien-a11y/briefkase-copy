@@ -52,7 +52,17 @@ Deno.serve(async (req) => {
           landscape: true,
           use_print: true,
           wait_for: 'networkidle0',
-          delay: 2000,
+          delay: 5000,
+          format: 'A4',
+          margin: '0',
+          disable_backgrounds: false,
+          full_page: true,
+          javascript: true,
+          css: `
+            .page-break { page-break-after: always; break-after: page; }
+            .page-break:last-child { page-break-after: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+          `,
         }),
       });
 
