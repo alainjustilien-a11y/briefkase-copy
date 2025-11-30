@@ -7,6 +7,49 @@ import { toast } from "sonner";
 const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25549073/ukizo90/";
 
 export default function ThankYouSection({ person, variant = "dark" }) {
+  const [sendingToZapier, setSendingToZapier] = useState(false);
+
+  const handleSendToZapier = async () => {
+    setSendingToZapier(true);
+    try {
+      const payload = {
+        id: person.id,
+        full_name: person.full_name,
+        title: person.title,
+        email: person.email,
+        phone: person.phone,
+        photo_url: person.photo_url,
+        summary: person.summary,
+        resume_url: person.resume_url,
+        template: person.template,
+        skills: person.skills || [],
+        achievements: person.achievements || [],
+        hobbies: person.hobbies || [],
+        experience: person.experience || [],
+        education: person.education || [],
+        day_plan: person.day_plan || {},
+        case_study: person.case_study || {},
+        created_date: person.created_date,
+        updated_date: person.updated_date,
+        created_by: person.created_by,
+        portfolio_url: window.location.href,
+      };
+
+      await fetch(ZAPIER_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      toast.success(`Portfolio sent to Zapier!`);
+    } catch (error) {
+      console.error('Zapier error:', error);
+      toast.error('Failed to send to Zapier');
+    }
+    setSendingToZapier(false);
+  };
+
   const isDark = variant === "dark";
   const isBlue = variant === "blue";
   const isLight = variant === "light";
