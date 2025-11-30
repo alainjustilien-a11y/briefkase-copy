@@ -190,41 +190,80 @@ The Briefkase Team
             print-color-adjust: exact !important;
             color-adjust: exact !important;
           }
+          
           .fixed {
             display: none !important;
           }
-          html, body {
+          
+          html {
+            height: auto !important;
+            overflow: visible !important;
+          }
+          
+          body {
             height: auto !important;
             overflow: visible !important;
             margin: 0 !important;
             padding: 0 !important;
           }
-          body > div {
+          
+          body > div,
+          body > div > div,
+          #root,
+          #root > div {
             height: auto !important;
             overflow: visible !important;
+            display: block !important;
           }
+          
           section {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
             display: block !important;
             position: relative !important;
+            overflow: visible !important;
             height: auto !important;
-            min-height: 100vh !important;
+            min-height: 0 !important;
+            padding-top: 40px !important;
+            padding-bottom: 40px !important;
             page-break-after: always !important;
             break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
+          
           section:last-of-type {
             page-break-after: avoid !important;
             break-after: avoid !important;
           }
-          .min-h-screen {
-            min-height: 100vh !important;
+          
+          /* Remove flex centering that causes issues */
+          section.min-h-screen {
+            min-height: 0 !important;
+            height: auto !important;
           }
-          /* Ensure backgrounds print */
-          div, section {
-            background-color: inherit !important;
-            background-image: inherit !important;
+          
+          section.flex {
+            display: block !important;
           }
+          
+          section .flex.items-center.justify-center {
+            display: block !important;
+          }
+          
+          /* Ensure content is visible */
+          .motion-div, [class*="motion"] {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          
+          /* Hide animations */
+          [class*="animate-"] {
+            animation: none !important;
+          }
+        }
+        
+        @page {
+          size: A4;
+          margin: 0;
         }
       `}</style>
     </>
