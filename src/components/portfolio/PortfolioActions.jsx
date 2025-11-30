@@ -27,6 +27,46 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   const [downloading, setDownloading] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
+  const [generatingPDF, setGeneratingPDF] = useState(false);
+
+  const handleDirectPDF = async () => {
+    setGeneratingPDF(true);
+    toast.info("Generating PDF...");
+    
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const personId = urlParams.get('id');
+      
+      const response = await base44.functions.invoke('generatePDF', { portfolio_id: personId });
+      
+      // Check if we got a fallback response
+      if (response.data?.fallback === 'print') {
+        toast.info("PDF service not configured. Using print dialog instead.");
+        handleDownloadPDF();
+        setGeneratingPDF(false);
+        return;
+      }
+      
+      // Download the PDF
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_portfolio.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+      
+      toast.success("PDF downloaded!");
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast.error("PDF generation failed. Using print dialog instead.");
+      handleDownloadPDF();
+    }
+    
+    setGeneratingPDF(false);
+  };
 
   const handleDownloadPDF = async () => {
     setDownloading(true);
@@ -267,6 +307,19 @@ The Briefkase Team
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuItem onClick={handleDirectPDF} className="cursor-pointer" disabled={generatingPDF}>
+              {generatingPDF ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating PDF...
+                </>
+              ) : (
+                <>
+                  <FileText className="w-4 h-4 mr-2" />
+                  Download PDF
+                </>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDownloadPDF} className="cursor-pointer" disabled={downloading}>
               <FileText className="w-4 h-4 mr-2" />
               Save as PDF (Print)
