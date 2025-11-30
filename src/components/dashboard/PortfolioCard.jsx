@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Mail, Award } from "lucide-react";
+import { ExternalLink, Mail, Send, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function PortfolioCard({ person, index }) {
   return (
