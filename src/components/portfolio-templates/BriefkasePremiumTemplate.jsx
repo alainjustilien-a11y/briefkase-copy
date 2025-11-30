@@ -5,7 +5,7 @@ import {
   Mail, Phone, Briefcase, TrendingUp, DollarSign, Target, Award,
   CheckCircle, Building, Calendar, ArrowRight, Palette, BarChart3,
   PieChart, Users, Zap, MessageSquare, Database, Globe, Settings, Pencil,
-  Heart, Music, Camera, Gamepad2, BookOpen, Dumbbell, Plane, Coffee
+  Heart, Music, Camera, Gamepad2, BookOpen, Dumbbell, Plane, Coffee, FileDown
 } from "lucide-react";
 
 // Cover Page Component
