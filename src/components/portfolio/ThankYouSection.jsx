@@ -149,6 +149,19 @@ export default function ThankYouSection({ person, variant = "dark" }) {
               Download Portfolio
             </Button>
           </a>
+          <Button 
+            variant="outline"
+            onClick={handleSendToZapier}
+            disabled={sendingToZapier}
+            className={`inline-flex items-center gap-2 border-2 ${isDark ? 'border-amber-500 text-amber-400 hover:bg-amber-500/10' : isBlue ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : isGradient ? 'border-white text-white hover:bg-white/10' : 'border-slate-800 text-slate-800 hover:bg-slate-800/10'} px-8 py-4 rounded-xl font-semibold transition-all`}
+          >
+            {sendingToZapier ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Send className="w-5 h-5" />
+            )}
+            Send to Zapier
+          </Button>
         </div>
       </motion.div>
     </section>
