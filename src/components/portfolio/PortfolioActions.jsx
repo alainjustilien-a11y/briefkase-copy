@@ -55,9 +55,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
     setTimeout(() => window.print(), 200);
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
+
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
