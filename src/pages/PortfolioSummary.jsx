@@ -13,9 +13,11 @@ export default function PortfolioSummary() {
 
   const { data: person, isLoading } = useQuery({
     queryKey: ['salesperson', personId],
-    queryFn: () => base44.entities.Salesperson.filter({ id: personId }),
+    queryFn: async () => {
+      const people = await base44.entities.Salesperson.list();
+      return people.find(p => p.id === personId);
+    },
     enabled: !!personId,
-    select: (data) => data?.[0],
   });
 
   const handlePrint = () => {
