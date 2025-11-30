@@ -25,7 +25,24 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   const [sending, setSending] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
+    setDownloading(true);
+    
+    // Scroll through entire page to ensure all content is rendered
+    const scrollHeight = document.documentElement.scrollHeight;
+    const viewportHeight = window.innerHeight;
+    
+    // Quick scroll through to trigger any lazy loading
+    for (let i = 0; i < scrollHeight; i += viewportHeight) {
+      window.scrollTo(0, i);
+      await new Promise(r => setTimeout(r, 100));
+    }
+    
+    // Scroll back to top
+    window.scrollTo(0, 0);
+    await new Promise(r => setTimeout(r, 300));
+    
+    setDownloading(false);
     window.print();
   };
 
