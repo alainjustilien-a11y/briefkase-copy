@@ -21,9 +21,12 @@ import { toast } from "sonner";
 
 export default function PortfolioActions({ person, portfolioUrl }) {
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showImagesDialog, setShowImagesDialog] = useState(false);
   const [email, setEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState("");
+  const [generatedImages, setGeneratedImages] = useState([]);
 
   const handleDownloadPDF = async () => {
     setDownloading(true);
@@ -53,6 +56,76 @@ export default function PortfolioActions({ person, portfolioUrl }) {
     // Open print dialog
     toast.info("In the print dialog, select 'Save as PDF' as the destination");
     setTimeout(() => window.print(), 200);
+  };
+
+  const handleDownloadImages = async () => {
+    setDownloading(true);
+    setGeneratedImages([]);
+    setShowImagesDialog(true);
+    
+    try {
+      const sections = document.querySelectorAll('section');
+      const totalSections = sections.length;
+      
+      if (totalSections === 0) {
+        toast.error("No sections found");
+        setDownloading(false);
+        return;
+      }
+
+      const images = [];
+
+      for (let i = 0; i < totalSections; i++) {
+        setDownloadProgress(`Generating image ${i + 1} of ${totalSections}...`);
+        
+        const section = sections[i];
+        
+        // Get section's computed styles and content description
+        const sectionTitle = section.querySelector('h1, h2, h3')?.textContent || `Section ${i + 1}`;
+        
+        // Generate image using AI based on section content
+        const sectionText = section.innerText.substring(0, 500);
+        
+        const result = await base44.integrations.Core.GenerateImage({
+          prompt: `Professional sales portfolio page design. Clean, modern corporate style with slate and amber colors. Content: "${sectionTitle}". Person: ${person.full_name}, ${person.title}. Style: Premium business portfolio, minimal, elegant typography, dark slate (#1e293b) and gold/amber (#f59e0b) color scheme. High quality render.`
+        });
+        
+        if (result?.url) {
+          images.push({
+            url: result.url,
+            title: sectionTitle,
+            index: i + 1
+          });
+          setGeneratedImages([...images]);
+        }
+        
+        // Small delay between generations
+        await new Promise(r => setTimeout(r, 500));
+      }
+      
+      setDownloadProgress("");
+      toast.success(`Generated ${images.length} portfolio images!`);
+      
+    } catch (error) {
+      console.error("Error generating images:", error);
+      toast.error("Failed to generate images");
+      setShowImagesDialog(false);
+    }
+    
+    setDownloading(false);
+  };
+
+  const downloadAllImages = () => {
+    generatedImages.forEach((img, index) => {
+      const link = document.createElement('a');
+      link.href = img.url;
+      link.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_page_${img.index}.png`;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+    toast.success("Downloading all images...");
   };
 
 
