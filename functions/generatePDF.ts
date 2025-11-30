@@ -41,10 +41,13 @@ Deno.serve(async (req) => {
       const appUrl = req.headers.get('origin') || req.headers.get('referer')?.split('/').slice(0, 3).join('/');
       const summaryUrl = `${appUrl}/PortfolioSummary?id=${portfolio_id}`;
       
+      // PDFShift uses the API key directly as username with empty password
+      const authString = btoa(`api:${pdfApiKey}`);
+      
       const pdfResponse = await fetch('https://api.pdfshift.io/v3/convert/pdf', {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${btoa(`api:${pdfApiKey}`)}`,
+          'Authorization': `Basic ${authString}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
