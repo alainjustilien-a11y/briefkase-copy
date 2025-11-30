@@ -149,19 +149,23 @@ The Briefkase Team
               Download
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-48">
-            <DropdownMenuItem onClick={handlePrint} className="cursor-pointer" disabled={downloading}>
+          <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuItem onClick={handleDownloadImages} className="cursor-pointer" disabled={downloading}>
               {downloading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Preparing...
+                  Downloading pages...
                 </>
               ) : (
                 <>
-                  <FileText className="w-4 h-4 mr-2" />
-                  Save as PDF
+                  <Image className="w-4 h-4 mr-2" />
+                  Download as Images (JPG)
                 </>
               )}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handlePrint} className="cursor-pointer">
+              <FileText className="w-4 h-4 mr-2" />
+              Print / Save as PDF
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleCopyLink} className="cursor-pointer">
