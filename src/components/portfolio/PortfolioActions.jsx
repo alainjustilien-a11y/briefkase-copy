@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Download, Mail, Share2, Check, Loader2, FileText } from "lucide-react";
+import { Download, Mail, Share2, Loader2, FileText, Image, X } from "lucide-react";
 import { toast } from "sonner";
 
 export default function PortfolioActions({ person, portfolioUrl }) {
