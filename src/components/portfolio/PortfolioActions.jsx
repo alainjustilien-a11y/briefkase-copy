@@ -166,9 +166,23 @@ The Briefkase Team
             print-color-adjust: exact;
             -webkit-print-color-adjust: exact;
           }
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+          }
           section {
-            page-break-after: always;
             page-break-inside: avoid;
+            break-inside: avoid;
+          }
+          section.min-h-screen {
+            min-height: auto !important;
+            height: auto !important;
+            page-break-after: always;
+            break-after: page;
+          }
+          section:last-of-type {
+            page-break-after: avoid;
+            break-after: avoid;
           }
         }
       `}</style>
