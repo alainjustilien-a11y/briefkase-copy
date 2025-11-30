@@ -58,57 +58,137 @@ export default function PortfolioActions({ person, portfolioUrl }) {
     setTimeout(() => window.print(), 200);
   };
 
+  const captureSection = async (section, index) => {
+    return new Promise((resolve) => {
+      // Clone the section to avoid modifying the original
+      const clone = section.cloneNode(true);
+      
+      // Create an offscreen container
+      const container = document.createElement('div');
+      container.style.cssText = `
+        position: fixed;
+        left: -9999px;
+        top: 0;
+        width: 1200px;
+        background: white;
+      `;
+      container.appendChild(clone);
+      document.body.appendChild(container);
+      
+      // Force styles
+      clone.style.cssText = `
+        opacity: 1 !important;
+        transform: none !important;
+        position: relative !important;
+        min-height: auto !important;
+        height: auto !important;
+        overflow: visible !important;
+      `;
+      
+      // Wait for rendering
+      setTimeout(async () => {
+        try {
+          // Use canvas to capture
+          const rect = clone.getBoundingClientRect();
+          const canvas = document.createElement('canvas');
+          const scale = 2;
+          canvas.width = 1200 * scale;
+          canvas.height = Math.max(rect.height, 800) * scale;
+          
+          const ctx = canvas.getContext('2d');
+          ctx.scale(scale, scale);
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Convert to data URL and upload
+          const dataUrl = canvas.toDataURL('image/png', 1.0);
+          const blob = await fetch(dataUrl).then(r => r.blob());
+          const file = new File([blob], `section_${index}.png`, { type: 'image/png' });
+          
+          const uploadResult = await base44.integrations.Core.UploadFile({ file });
+          
+          document.body.removeChild(container);
+          resolve(uploadResult?.file_url || null);
+        } catch (err) {
+          console.error('Capture error:', err);
+          document.body.removeChild(container);
+          resolve(null);
+        }
+      }, 100);
+    });
+  };
+
   const handleDownloadImages = async () => {
     setDownloading(true);
     setGeneratedImages([]);
     setShowImagesDialog(true);
     
     try {
+      // Scroll through page to render all content first
+      const scrollHeight = document.documentElement.scrollHeight;
+      const viewportHeight = window.innerHeight;
+      
+      for (let i = 0; i < scrollHeight; i += viewportHeight) {
+        window.scrollTo(0, i);
+        await new Promise(r => setTimeout(r, 100));
+      }
+      window.scrollTo(0, 0);
+      await new Promise(r => setTimeout(r, 300));
+      
+      // Force all sections visible
+      document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '1';
+        section.style.transform = 'none';
+      });
+      
       const sections = document.querySelectorAll('section');
       const totalSections = sections.length;
       
       if (totalSections === 0) {
         toast.error("No sections found");
         setDownloading(false);
+        setShowImagesDialog(false);
         return;
       }
 
       const images = [];
 
       for (let i = 0; i < totalSections; i++) {
-        setDownloadProgress(`Generating image ${i + 1} of ${totalSections}...`);
+        setDownloadProgress(`Capturing page ${i + 1} of ${totalSections}...`);
         
         const section = sections[i];
+        const sectionTitle = section.querySelector('h1, h2, h3')?.textContent || `Page ${i + 1}`;
         
-        // Get section's computed styles and content description
-        const sectionTitle = section.querySelector('h1, h2, h3')?.textContent || `Section ${i + 1}`;
+        // Scroll section into view
+        section.scrollIntoView({ behavior: 'instant' });
+        await new Promise(r => setTimeout(r, 200));
         
-        // Generate image using AI based on section content
-        const sectionText = section.innerText.substring(0, 500);
+        // Capture and upload
+        const imageUrl = await captureSection(section, i + 1);
         
-        const result = await base44.integrations.Core.GenerateImage({
-          prompt: `Professional sales portfolio page design. Clean, modern corporate style with slate and amber colors. Content: "${sectionTitle}". Person: ${person.full_name}, ${person.title}. Style: Premium business portfolio, minimal, elegant typography, dark slate (#1e293b) and gold/amber (#f59e0b) color scheme. High quality render.`
-        });
-        
-        if (result?.url) {
+        if (imageUrl) {
           images.push({
-            url: result.url,
+            url: imageUrl,
             title: sectionTitle,
             index: i + 1
           });
           setGeneratedImages([...images]);
         }
-        
-        // Small delay between generations
-        await new Promise(r => setTimeout(r, 500));
       }
       
+      window.scrollTo(0, 0);
       setDownloadProgress("");
-      toast.success(`Generated ${images.length} portfolio images!`);
+      
+      if (images.length > 0) {
+        toast.success(`Captured ${images.length} portfolio pages!`);
+      } else {
+        toast.error("Could not capture any pages");
+        setShowImagesDialog(false);
+      }
       
     } catch (error) {
-      console.error("Error generating images:", error);
-      toast.error("Failed to generate images");
+      console.error("Error capturing images:", error);
+      toast.error("Failed to capture images");
       setShowImagesDialog(false);
     }
     
