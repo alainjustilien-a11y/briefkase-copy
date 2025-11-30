@@ -180,81 +180,15 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   };
 
   const handleDownloadImages = async () => {
-    setDownloading(true);
-    setGeneratedImages([]);
-    setShowImagesDialog(true);
+    // Open the Summary View page which has all slides - user can screenshot from there
+    const urlParams = new URLSearchParams(window.location.search);
+    const personId = urlParams.get('id');
     
-    try {
-      // Scroll through page to render all content first
-      const scrollHeight = document.documentElement.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      
-      for (let i = 0; i < scrollHeight; i += viewportHeight) {
-        window.scrollTo(0, i);
-        await new Promise(r => setTimeout(r, 100));
-      }
-      window.scrollTo(0, 0);
-      await new Promise(r => setTimeout(r, 300));
-      
-      // Force all sections visible
-      document.querySelectorAll('section').forEach(section => {
-        section.style.opacity = '1';
-        section.style.transform = 'none';
-      });
-      
-      const sections = document.querySelectorAll('section');
-      const totalSections = sections.length;
-      
-      if (totalSections === 0) {
-        toast.error("No sections found");
-        setDownloading(false);
-        setShowImagesDialog(false);
-        return;
-      }
-
-      const images = [];
-
-      for (let i = 0; i < totalSections; i++) {
-        setDownloadProgress(`Capturing page ${i + 1} of ${totalSections}...`);
-        
-        const section = sections[i];
-        const sectionTitle = section.querySelector('h1, h2, h3')?.textContent || `Page ${i + 1}`;
-        
-        // Scroll section into view
-        section.scrollIntoView({ behavior: 'instant' });
-        await new Promise(r => setTimeout(r, 200));
-        
-        // Capture and upload
-        const imageUrl = await captureSection(section, i + 1);
-        
-        if (imageUrl) {
-          images.push({
-            url: imageUrl,
-            title: sectionTitle,
-            index: i + 1
-          });
-          setGeneratedImages([...images]);
-        }
-      }
-      
-      window.scrollTo(0, 0);
-      setDownloadProgress("");
-      
-      if (images.length > 0) {
-        await trackDownload('images');
-        toast.success(`Captured ${images.length} portfolio pages!`);
-      } else {
-        toast.error("Could not capture any pages");
-        setShowImagesDialog(false);
-      }
-      
-    } catch (error) {
-      console.error("Error capturing images:", error);
-      toast.error("Failed to capture images");
-      setShowImagesDialog(false);
-    }
+    toast.info("Opening Summary View - use your browser or screenshot tool to capture images for Canva");
+    await trackDownload('images');
     
-    setDownloading(false);
+    // Open summary view in new tab
+    window.open(`/PortfolioSummary?id=${personId}`, '_blank');
   };
 
   const downloadAllImages = () => {
