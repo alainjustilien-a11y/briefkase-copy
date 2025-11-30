@@ -90,21 +90,19 @@ export default function ThankYouSection({ person, variant = "dark" }) {
               </Button>
             </a>
           )}
-          {person.id && (
-            <a 
-              href={`/PortfolioSummary?id=${person.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
+          <a 
+            href={`/PortfolioSummary?id=${new URLSearchParams(window.location.search).get('id')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button 
+              variant="outline"
+              className={`inline-flex items-center gap-2 border-2 ${isDark ? 'border-amber-500 text-amber-400 hover:bg-amber-500/10' : isBlue ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : isGradient ? 'border-white text-white hover:bg-white/10' : 'border-slate-800 text-slate-800 hover:bg-slate-800/10'} px-8 py-4 rounded-xl font-semibold transition-all`}
             >
-              <Button 
-                variant="outline"
-                className={`inline-flex items-center gap-2 border-2 ${isDark ? 'border-amber-500 text-amber-400 hover:bg-amber-500/10' : isBlue ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : isGradient ? 'border-white text-white hover:bg-white/10' : 'border-slate-800 text-slate-800 hover:bg-slate-800/10'} px-8 py-4 rounded-xl font-semibold transition-all`}
-              >
-                <FileDown className="w-5 h-5" />
-                Download Portfolio
-              </Button>
-            </a>
-          )}
+              <FileDown className="w-5 h-5" />
+              Download Portfolio
+            </Button>
+          </a>
         </div>
       </motion.div>
     </section>
