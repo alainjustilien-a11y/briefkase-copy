@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Save, X, Plus, Trash2, BookOpen } from "lucide-react";
+import { Save, X, Plus, Trash2, BookOpen, Sparkles } from "lucide-react";
+import { SummaryEnhancer, SkillsSuggester, DayPlanGenerator } from "./AIEnhancer";
 
 export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
   const [editedData, setEditedData] = useState(data);
@@ -85,18 +86,30 @@ export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
           </div>
 
           <div>
-            <Label className="text-slate-700 font-semibold mb-2">Professional Summary</Label>
+            <div className="flex items-center gap-2 mb-2">
+              <Label className="text-slate-700 font-semibold">Professional Summary</Label>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+            </div>
             <Textarea
               value={editedData.summary || ''}
               onChange={(e) => updateField('summary', e.target.value)}
               className="rounded-xl min-h-32"
+            />
+            <SummaryEnhancer
+              currentSummary={editedData.summary}
+              experience={editedData.experience}
+              title={editedData.title}
+              onSelect={(text) => updateField('summary', text)}
             />
           </div>
 
           {/* Skills */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <Label className="text-slate-700 font-semibold">Skills</Label>
+              <div className="flex items-center gap-2">
+                <Label className="text-slate-700 font-semibold">Skills</Label>
+                <Sparkles className="w-4 h-4 text-amber-500" />
+              </div>
               <Button
                 type="button"
                 size="sm"
@@ -124,6 +137,12 @@ export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
                 </div>
               ))}
             </div>
+            <SkillsSuggester
+              currentSkills={editedData.skills}
+              experience={editedData.experience}
+              title={editedData.title}
+              onAddSkill={(skill) => addArrayItem('skills', skill)}
+            />
           </div>
 
           {/* Achievements */}
@@ -162,8 +181,17 @@ export default function PortfolioPreview({ data, onSave, onBack, isSaving }) {
 
           {/* 30-60-90 Day Plan */}
           <div>
-            <Label className="text-slate-700 font-semibold mb-3 block">30-60-90 Day Plan</Label>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Label className="text-slate-700 font-semibold">30-60-90 Day Plan</Label>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+            </div>
+            <DayPlanGenerator
+              title={editedData.title}
+              experience={editedData.experience}
+              currentPlan={editedData.day_plan}
+              onApply={(plan) => updateField('day_plan', plan)}
+            />
+            <div className="grid md:grid-cols-3 gap-4 mt-4">
               {/* 30 Days */}
               <Card className="p-4 bg-slate-50 border-slate-200">
                 <h4 className="font-semibold text-slate-900 mb-2">30 Days</h4>
