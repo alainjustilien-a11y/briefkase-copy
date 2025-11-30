@@ -271,6 +271,17 @@ The Briefkase Team
               <FileText className="w-4 h-4 mr-2" />
               Save as PDF (Print)
             </DropdownMenuItem>
+            <DropdownMenuItem 
+              onClick={() => {
+                const urlParams = new URLSearchParams(window.location.search);
+                const personId = urlParams.get('id');
+                window.open(`/PortfolioSummary?id=${personId}`, '_blank');
+              }} 
+              className="cursor-pointer"
+            >
+              <FileText className="w-4 h-4 mr-2" />
+              Summary View (All Slides)
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDownloadImages} className="cursor-pointer" disabled={downloading}>
               {downloading ? (
                 <>
