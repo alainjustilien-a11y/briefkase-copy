@@ -37,10 +37,15 @@ export default function PortfolioSummary() {
     );
   }
 
-  if (!person) {
+  if (error || !person) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>Portfolio not found</p>
+        <div className="text-center">
+          <p className="text-lg text-slate-600 mb-4">Portfolio not found</p>
+          <Link to={createPageUrl('Dashboard')}>
+            <Button>Back to Dashboard</Button>
+          </Link>
+        </div>
       </div>
     );
   }
