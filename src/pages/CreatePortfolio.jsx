@@ -125,10 +125,27 @@ export default function CreatePortfolio() {
       };
       
       console.log("Extracting data from resume...");
-      const extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
-        file_url: resumeUpload.file_url,
-        json_schema: schema
-      });
+      
+      // Check if it's a Word document - use LLM for Word docs, ExtractData for PDFs
+      const isWordDoc = resumeFile.name.toLowerCase().endsWith('.doc') || resumeFile.name.toLowerCase().endsWith('.docx');
+      
+      let extractResult;
+      
+      if (isWordDoc) {
+        // Use LLM with file attachment for Word documents
+        const llmResult = await base44.integrations.Core.InvokeLLM({
+          prompt: `Extract the following information from this resume document and return it as JSON matching the schema provided. Be thorough and extract all relevant details including work experience, skills, achievements with specific metrics, and education. For achievements, focus on quantifiable results like percentages, revenue numbers, or years of experience.`,
+          file_urls: [resumeUpload.file_url],
+          response_json_schema: schema
+        });
+        extractResult = { status: 'success', output: llmResult };
+      } else {
+        // Use ExtractDataFromUploadedFile for PDFs
+        extractResult = await base44.integrations.Core.ExtractDataFromUploadedFile({
+          file_url: resumeUpload.file_url,
+          json_schema: schema
+        });
+      }
 
       console.log("Extract result:", extractResult);
 
