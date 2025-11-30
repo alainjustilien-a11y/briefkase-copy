@@ -78,6 +78,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
       window.URL.revokeObjectURL(url);
       a.remove();
       
+      await trackDownload('pdf');
       toast.success("PDF downloaded!");
     } catch (error) {
       console.error("PDF generation error:", error);
