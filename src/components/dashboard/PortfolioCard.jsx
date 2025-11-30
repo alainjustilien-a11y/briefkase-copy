@@ -7,7 +7,52 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Mail, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25549073/ukizo90/";
+
 export default function PortfolioCard({ person, index }) {
+  const [sendingToZapier, setSendingToZapier] = useState(false);
+
+  const handleSendToZapier = async () => {
+    setSendingToZapier(true);
+    try {
+      const payload = {
+        id: person.id,
+        full_name: person.full_name,
+        title: person.title,
+        email: person.email,
+        phone: person.phone,
+        photo_url: person.photo_url,
+        summary: person.summary,
+        resume_url: person.resume_url,
+        template: person.template,
+        skills: person.skills || [],
+        achievements: person.achievements || [],
+        hobbies: person.hobbies || [],
+        experience: person.experience || [],
+        education: person.education || [],
+        day_plan: person.day_plan || {},
+        case_study: person.case_study || {},
+        created_date: person.created_date,
+        updated_date: person.updated_date,
+        created_by: person.created_by,
+        portfolio_url: `${window.location.origin}/Portfolio?id=${person.id}`,
+      };
+
+      await fetch(ZAPIER_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      toast.success(`Sent ${person.full_name}'s portfolio to Zapier!`);
+    } catch (error) {
+      console.error('Zapier error:', error);
+      toast.error('Failed to send to Zapier');
+    }
+    setSendingToZapier(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
