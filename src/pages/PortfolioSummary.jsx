@@ -23,10 +23,9 @@ export default function PortfolioSummary() {
       }
       
       try {
-        const people = await base44.entities.Salesperson.list();
-        const found = people.find(p => p.id === personId);
-        if (found) {
-          setPerson(found);
+        const people = await base44.entities.Salesperson.filter({ id: personId });
+        if (people && people.length > 0) {
+          setPerson(people[0]);
         } else {
           setError('Portfolio not found');
         }
