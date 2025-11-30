@@ -350,6 +350,7 @@ The Briefkase Team
               onClick={() => {
                 const urlParams = new URLSearchParams(window.location.search);
                 const personId = urlParams.get('id');
+                trackDownload('summary');
                 window.open(`/PortfolioSummary?id=${personId}`, '_blank');
               }} 
               className="cursor-pointer"
