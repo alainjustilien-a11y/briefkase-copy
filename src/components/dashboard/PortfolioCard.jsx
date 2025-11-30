@@ -101,6 +101,20 @@ export default function PortfolioCard({ person, index }) {
                 View Portfolio
               </Button>
             </Link>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="rounded-xl border-slate-300"
+              onClick={handleSendToZapier}
+              disabled={sendingToZapier}
+              title="Send to Zapier"
+            >
+              {sendingToZapier ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Send className="w-4 h-4" />
+              )}
+            </Button>
             {person.email && (
               <a href={`mailto:${person.email}`}>
                 <Button variant="outline" size="icon" className="rounded-xl border-slate-300">
