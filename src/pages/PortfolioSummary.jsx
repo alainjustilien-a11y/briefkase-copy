@@ -253,23 +253,38 @@ export default function PortfolioSummary() {
             display: none !important;
           }
           
+          html, body {
+            height: auto !important;
+            overflow: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
+          }
+          
           .page-break {
-            page-break-after: always;
-            break-after: page;
+            display: block !important;
+            position: relative !important;
+            page-break-after: always !important;
+            break-after: page !important;
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            min-height: 100vh !important;
+            height: auto !important;
+            overflow: visible !important;
           }
           
           .page-break:last-child {
-            page-break-after: avoid;
+            page-break-after: avoid !important;
+            break-after: avoid !important;
+          }
+          
+          .page-break.flex {
+            display: flex !important;
           }
           
           * {
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
-          }
-          
-          body {
-            margin: 0;
-            padding: 0;
+            color-adjust: exact !important;
           }
         }
         
