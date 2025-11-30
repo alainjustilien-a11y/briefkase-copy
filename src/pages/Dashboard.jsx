@@ -4,11 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
-import { Plus, Users, Download, Loader2 } from "lucide-react";
+import { Plus, Users, Download, Loader2, BarChart3 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import PortfolioCard from "../components/dashboard/PortfolioCard";
 import StatsOverview from "../components/dashboard/StatsOverview";
+import DownloadStats from "../components/dashboard/DownloadStats";
 
 export default function Dashboard() {
   const [downloadingAll, setDownloadingAll] = React.useState(false);
