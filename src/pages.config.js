@@ -3,7 +3,6 @@ import CreatePortfolio from './pages/CreatePortfolio';
 import Portfolio from './pages/Portfolio';
 import Home from './pages/Home';
 import LeadCapture from './pages/LeadCapture';
-import PortfolioSummary from './pages/PortfolioSummary';
 import __Layout from './Layout.jsx';
 
 
@@ -13,7 +12,6 @@ export const PAGES = {
     "Portfolio": Portfolio,
     "Home": Home,
     "LeadCapture": LeadCapture,
-    "PortfolioSummary": PortfolioSummary,
 }
 
 export const pagesConfig = {
