@@ -27,63 +27,104 @@ export default function PortfolioActions({ person, portfolioUrl }) {
 
   const handleDownloadImages = async () => {
     setDownloading(true);
-    toast.info("Preparing portfolio images...");
+    toast.info("Preparing portfolio - this may take a moment...");
     
     try {
-      // Dynamic import of html2canvas
-      const html2canvas = (await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.esm.min.js')).default;
-      
       // Scroll through entire page first to ensure all content is rendered
       const scrollHeight = document.documentElement.scrollHeight;
       const viewportHeight = window.innerHeight;
       
       for (let i = 0; i < scrollHeight; i += viewportHeight) {
         window.scrollTo(0, i);
-        await new Promise(r => setTimeout(r, 150));
+        await new Promise(r => setTimeout(r, 100));
       }
       window.scrollTo(0, 0);
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 300));
       
       // Get all sections
       const sections = document.querySelectorAll('section');
-      const images = [];
       
+      if (sections.length === 0) {
+        toast.error("No sections found to download");
+        setDownloading(false);
+        return;
+      }
+
+      // Create a simple canvas-based screenshot for each section
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
         
         // Scroll section into view
-        section.scrollIntoView();
-        await new Promise(r => setTimeout(r, 300));
+        section.scrollIntoView({ behavior: 'instant' });
+        await new Promise(r => setTimeout(r, 200));
         
-        // Capture the section
-        const canvas = await html2canvas(section, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: null,
-          logging: false,
+        // Get section dimensions
+        const rect = section.getBoundingClientRect();
+        
+        // Create canvas matching section size
+        const canvas = document.createElement('canvas');
+        const scale = 2; // For higher quality
+        canvas.width = rect.width * scale;
+        canvas.height = rect.height * scale;
+        
+        const ctx = canvas.getContext('2d');
+        ctx.scale(scale, scale);
+        
+        // Draw background color
+        const computedStyle = window.getComputedStyle(section);
+        ctx.fillStyle = computedStyle.backgroundColor || '#ffffff';
+        ctx.fillRect(0, 0, rect.width, rect.height);
+        
+        // Use SVG foreignObject approach for better rendering
+        const data = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="${rect.width}" height="${rect.height}">
+            <foreignObject width="100%" height="100%">
+              <div xmlns="http://www.w3.org/1999/xhtml">
+                ${section.outerHTML}
+              </div>
+            </foreignObject>
+          </svg>
+        `;
+        
+        const img = new window.Image();
+        const svgBlob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+        
+        await new Promise((resolve, reject) => {
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+            URL.revokeObjectURL(url);
+            
+            // Download the canvas as JPEG
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const downloadUrl = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_page_${i + 1}.jpg`;
+                link.href = downloadUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(downloadUrl);
+              }
+              resolve();
+            }, 'image/jpeg', 0.9);
+          };
+          img.onerror = () => {
+            URL.revokeObjectURL(url);
+            resolve(); // Continue even if one fails
+          };
+          img.src = url;
         });
         
-        // Convert to blob and download
-        canvas.toBlob((blob) => {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `${person.full_name?.replace(/\s+/g, '_') || 'portfolio'}_page_${i + 1}.jpg`;
-          link.href = url;
-          link.click();
-          URL.revokeObjectURL(url);
-        }, 'image/jpeg', 0.95);
-        
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 300));
       }
       
       window.scrollTo(0, 0);
-      toast.success(`Downloaded ${sections.length} portfolio pages!`);
+      toast.success(`Portfolio download complete!`);
     } catch (error) {
       console.error("Error downloading images:", error);
-      // Fallback to print
-      toast.info("Falling back to print mode...");
-      window.print();
+      toast.error("Download failed. Try using Print / Save as PDF instead.");
     }
     
     setDownloading(false);
