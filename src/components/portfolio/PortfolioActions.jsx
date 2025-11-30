@@ -31,7 +31,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
 
   const handleDirectPDF = async () => {
     setGeneratingPDF(true);
-    toast.info("Generating PDF...");
+    toast.info("Generating PDF... This may take a few seconds.");
     
     try {
       const urlParams = new URLSearchParams(window.location.search);
@@ -39,10 +39,16 @@ export default function PortfolioActions({ person, portfolioUrl }) {
       
       const response = await base44.functions.invoke('generatePDF', { portfolio_id: personId });
       
-      // Check if we got a fallback response
-      if (response.data?.fallback === 'print') {
-        toast.info("PDF service not configured. Using print dialog instead.");
-        handleDownloadPDF();
+      // Check if we got a JSON fallback response (error case)
+      if (response.data?.fallback === 'print' || response.data?.error) {
+        toast.error("PDF generation failed. Try 'Save as PDF (Print)' option instead.");
+        setGeneratingPDF(false);
+        return;
+      }
+      
+      // Check if we actually got PDF data (should be binary, not JSON)
+      if (typeof response.data === 'object' && !(response.data instanceof ArrayBuffer)) {
+        toast.error("PDF generation issue. Try 'Save as PDF (Print)' option instead.");
         setGeneratingPDF(false);
         return;
       }
@@ -61,8 +67,7 @@ export default function PortfolioActions({ person, portfolioUrl }) {
       toast.success("PDF downloaded!");
     } catch (error) {
       console.error("PDF generation error:", error);
-      toast.error("PDF generation failed. Using print dialog instead.");
-      handleDownloadPDF();
+      toast.error("PDF generation failed. Try 'Save as PDF (Print)' option instead.");
     }
     
     setGeneratingPDF(false);
