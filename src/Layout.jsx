@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Briefcase, Users, Upload, Home } from "lucide-react";
+import { Briefcase, Upload, Home, Sparkles, GraduationCap, Building2, Rocket, Trophy } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -23,7 +23,7 @@ const navigationItems = [
     icon: Home,
   },
   {
-    title: "Dashboard",
+    title: "My Portfolios",
     url: createPageUrl("Dashboard"),
     icon: Briefcase,
   },
@@ -31,6 +31,37 @@ const navigationItems = [
     title: "Create Portfolio",
     url: createPageUrl("CreatePortfolio"),
     icon: Upload,
+  },
+];
+
+const valueLadder = [
+  {
+    title: "Free Tools",
+    url: createPageUrl("Home") + "#lead-magnet",
+    icon: Sparkles,
+    badge: "FREE",
+    badgeColor: "bg-green-500",
+  },
+  {
+    title: "Template Packs",
+    url: createPageUrl("Home") + "#pricing",
+    icon: Trophy,
+    badge: "$27-97",
+    badgeColor: "bg-blue-500",
+  },
+  {
+    title: "Done-For-You",
+    url: createPageUrl("Home") + "#pricing",
+    icon: Rocket,
+    badge: "$297+",
+    badgeColor: "bg-amber-500",
+  },
+  {
+    title: "Enterprise",
+    url: createPageUrl("Home") + "#pricing",
+    icon: Building2,
+    badge: "CUSTOM",
+    badgeColor: "bg-purple-500",
   },
 ];
 
