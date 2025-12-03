@@ -98,31 +98,74 @@ export default function Layout({ children, currentPageName }) {
           </SidebarHeader>
           
           <SidebarContent className="p-3">
-            <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-3">
-                Navigation
-              </SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {navigationItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton 
-                        asChild 
-                        className={`hover:bg-slate-100 transition-all duration-200 rounded-xl mb-1 ${
-                          location.pathname === item.url ? 'bg-slate-900 text-white hover:bg-slate-800' : ''
-                        }`}
-                      >
-                        <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
-                          <item.icon className="w-4 h-4" />
-                          <span className="font-medium">{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          </SidebarContent>
+                          <SidebarGroup>
+                            <SidebarGroupLabel className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-3">
+                              Navigation
+                            </SidebarGroupLabel>
+                            <SidebarGroupContent>
+                              <SidebarMenu>
+                                {navigationItems.map((item) => (
+                                  <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton 
+                                      asChild 
+                                      className={`hover:bg-slate-100 transition-all duration-200 rounded-xl mb-1 ${
+                                        location.pathname === item.url ? 'bg-slate-900 text-white hover:bg-slate-800' : ''
+                                      }`}
+                                    >
+                                      <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
+                                        <item.icon className="w-4 h-4" />
+                                        <span className="font-medium">{item.title}</span>
+                                      </Link>
+                                    </SidebarMenuButton>
+                                  </SidebarMenuItem>
+                                ))}
+                              </SidebarMenu>
+                            </SidebarGroupContent>
+                          </SidebarGroup>
+
+                          {/* Value Ladder - Hormozi $100M Strategy */}
+                          <SidebarGroup className="mt-4">
+                            <SidebarGroupLabel className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-3">
+                              Career Transformation
+                            </SidebarGroupLabel>
+                            <SidebarGroupContent>
+                              <SidebarMenu>
+                                {valueLadder.map((item) => (
+                                  <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton 
+                                      asChild 
+                                      className="hover:bg-slate-100 transition-all duration-200 rounded-xl mb-1"
+                                    >
+                                      <Link to={item.url} className="flex items-center gap-3 px-4 py-3">
+                                        <item.icon className="w-4 h-4 text-slate-600" />
+                                        <span className="font-medium text-sm flex-1">{item.title}</span>
+                                        <span className={`text-[10px] font-bold text-white px-2 py-0.5 rounded-full ${item.badgeColor}`}>
+                                          {item.badge}
+                                        </span>
+                                      </Link>
+                                    </SidebarMenuButton>
+                                  </SidebarMenuItem>
+                                ))}
+                              </SidebarMenu>
+                            </SidebarGroupContent>
+                          </SidebarGroup>
+
+                          {/* Grand Slam Offer CTA */}
+                          <div className="mt-6 mx-2 p-4 bg-gradient-to-br from-amber-50 to-amber-100 rounded-2xl border border-amber-200">
+                            <div className="flex items-center gap-2 mb-2">
+                              <Rocket className="w-5 h-5 text-amber-600" />
+                              <span className="font-bold text-slate-900 text-sm">Grand Slam Offer</span>
+                            </div>
+                            <p className="text-xs text-slate-600 mb-3">
+                              Get a job-winning portfolio done for you — guaranteed or we rebuild free.
+                            </p>
+                            <Link to={createPageUrl("CreatePortfolio")}>
+                              <button className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-slate-900 font-semibold text-sm py-2 px-4 rounded-xl hover:from-amber-600 hover:to-amber-700 transition-all shadow-sm">
+                                Start Free →
+                              </button>
+                            </Link>
+                          </div>
+                        </SidebarContent>
         </Sidebar>
 
         <main className="flex-1 flex flex-col">
