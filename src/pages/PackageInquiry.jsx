@@ -11,8 +11,15 @@ import { createPageUrl } from "@/utils";
 import { motion } from "framer-motion";
 
 export default function PackageInquiry() {
+  const packages = {
+    Starter: { price: "$49", color: "from-slate-900 to-slate-800" },
+    Professional: { price: "$149", color: "from-amber-500 to-amber-600" },
+    Elite: { price: "$299", color: "from-purple-600 to-purple-800" }
+  };
+
   const urlParams = new URLSearchParams(window.location.search);
-  const packageName = urlParams.get('package') || 'Professional';
+  const requestedPackage = urlParams.get('package') || 'Professional';
+  const packageName = packages[requestedPackage] ? requestedPackage : 'Professional';
   
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,12 +50,6 @@ export default function PackageInquiry() {
   const handleSubmit = (e) => {
     e.preventDefault();
     submitMutation.mutate(formData);
-  };
-
-  const packages = {
-    Starter: { price: "$49", color: "from-slate-900 to-slate-800" },
-    Professional: { price: "$149", color: "from-amber-500 to-amber-600" },
-    Elite: { price: "$299", color: "from-purple-600 to-purple-800" }
   };
 
   if (submitted) {
