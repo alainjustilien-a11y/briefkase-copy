@@ -594,7 +594,7 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Link to={createPageUrl("CreatePortfolio")}>
+                  <Link to={createPageUrl(`PackageInquiry?package=${plan.name}`)}>
                     <Button className={`w-full py-6 rounded-xl font-bold ${
                       plan.popular
                         ? 'bg-amber-500 hover:bg-amber-600 text-white'
