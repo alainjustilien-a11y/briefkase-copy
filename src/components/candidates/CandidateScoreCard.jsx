@@ -2,10 +2,39 @@ import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, Mail, ExternalLink, FileText } from "lucide-react";
+import { ChevronDown, ChevronUp, Mail, ExternalLink, FileText, Download } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { toast } from "sonner";
 
 export default function CandidateScoreCard({ candidate, index }) {
   const [expanded, setExpanded] = useState(false);
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
+
+  const handleDownloadPDF = async () => {
+    setDownloadingPDF(true);
+    try {
+      const { data } = await base44.functions.invoke('generateCareerBrief', {
+        candidate_id: candidate.id
+      });
+      
+      const blob = new Blob([data], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Career_Brief_${candidate.full_name?.replace(/\s+/g, '_')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+      
+      toast.success('PDF downloaded successfully');
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      toast.error('Failed to download PDF');
+    } finally {
+      setDownloadingPDF(false);
+    }
+  };
 
   const getRiskColor = (indicator) => {
     switch (indicator) {
@@ -160,6 +189,14 @@ export default function CandidateScoreCard({ candidate, index }) {
 
           {/* Right: Actions */}
           <div className="flex flex-col gap-3 lg:w-48">
+            <Button
+              className="w-full justify-start bg-slate-900 hover:bg-slate-800 text-white"
+              onClick={handleDownloadPDF}
+              disabled={downloadingPDF}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              {downloadingPDF ? 'Generating...' : 'Download PDF'}
+            </Button>
             {candidate.resume_file && (
               <Button
                 variant="outline"
