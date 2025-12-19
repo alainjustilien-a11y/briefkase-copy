@@ -32,6 +32,11 @@ const navigationItems = [
     url: createPageUrl("CreatePortfolio"),
     icon: Upload,
   },
+  {
+    title: "Career AI Agent",
+    url: createPageUrl("CareerAgent"),
+    icon: Sparkles,
+  },
 ];
 
 const valueLadder = [
