@@ -37,6 +37,16 @@ const navigationItems = [
     url: createPageUrl("CareerAgent"),
     icon: Sparkles,
   },
+  {
+    title: "Candidates",
+    url: createPageUrl("Candidates"),
+    icon: GraduationCap,
+  },
+  {
+    title: "HR Interviews",
+    url: createPageUrl("Interviews"),
+    icon: Building2,
+  },
 ];
 
 const valueLadder = [
