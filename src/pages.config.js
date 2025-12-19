@@ -6,6 +6,7 @@ import LeadCapture from './pages/LeadCapture';
 import PortfolioSummary from './pages/PortfolioSummary';
 import PackageInquiry from './pages/PackageInquiry';
 import CareerAgent from './pages/CareerAgent';
+import Candidates from './pages/Candidates';
 import __Layout from './Layout.jsx';
 
 
@@ -18,6 +19,7 @@ export const PAGES = {
     "PortfolioSummary": PortfolioSummary,
     "PackageInquiry": PackageInquiry,
     "CareerAgent": CareerAgent,
+    "Candidates": Candidates,
 }
 
 export const pagesConfig = {
