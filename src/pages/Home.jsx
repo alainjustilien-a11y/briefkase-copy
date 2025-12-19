@@ -449,58 +449,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF - 3 Card Testimonials */}
-      <section className="py-20 px-6 bg-slate-100">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-center text-slate-900 mb-16"
-          >
-            Trusted by High-Performing Sales Pros
-          </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                quote: "I booked three interviews in one week after sending my portfolio.",
-                name: "SDR Candidate"
-              },
-              {
-                quote: "Recruiters told me it was the best candidate presentation they've seen.",
-                name: "Account Executive"
-              },
-              {
-                quote: "The Briefkase boosted my confidence and helped me stand out instantly.",
-                name: "SaaS Sales Professional"
-              }
-            ].map((testimonial, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Card className="bg-white border-0 shadow-lg p-8 h-full">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-                  <p className="text-slate-700 italic text-lg mb-6 leading-relaxed">
-                    "{testimonial.quote}"
-                  </p>
-                  <div className="border-t border-slate-100 pt-4">
-                    <p className="text-amber-600 font-semibold">— {testimonial.name}</p>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* HOW IT WORKS - 3 Step Horizontal */}
       <section className="py-20 px-6 bg-white">
