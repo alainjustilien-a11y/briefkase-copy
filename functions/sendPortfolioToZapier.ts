@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
 
         // Format payload for Zapier with the exact structure
         const zapierPayload = {
-            id: portfolio.id,
+            portfolio_id: portfolio.id,
             full_name: portfolio.full_name || "",
             title: portfolio.title || "",
             email: portfolio.email || "",
@@ -45,16 +45,8 @@ Deno.serve(async (req) => {
             experience: portfolio.experience || [],
             education: portfolio.education || [],
             plan_30_60_90: portfolio.day_plan || {},
-            case_study: portfolio.case_study || {},
-            created_date: portfolio.created_date,
-            updated_date: portfolio.updated_date,
-            created_by: portfolio.created_by
+            case_study: portfolio.case_study || {}
         };
-
-        // Only include final_portfolio_pdf_url if it exists and is not empty
-        if (portfolio.final_portfolio_pdf_url) {
-            zapierPayload.final_portfolio_pdf_url = portfolio.final_portfolio_pdf_url;
-        }
 
         // Send to Zapier webhook
         const zapierResponse = await fetch(webhook_url, {
