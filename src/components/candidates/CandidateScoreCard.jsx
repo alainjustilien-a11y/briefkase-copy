@@ -1,14 +1,44 @@
 import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, Mail, ExternalLink, FileText, Download } from "lucide-react";
+import { ChevronDown, ChevronUp, Mail, ExternalLink, FileText, Download, Zap } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
 
 export default function CandidateScoreCard({ candidate, index }) {
   const [expanded, setExpanded] = useState(false);
   const [downloadingPDF, setDownloadingPDF] = useState(false);
+  const [showZapierDialog, setShowZapierDialog] = useState(false);
+  const [webhookUrl, setWebhookUrl] = useState('');
+  const [sendingToZapier, setSendingToZapier] = useState(false);
+
+  const handleSendToZapier = async () => {
+    if (!webhookUrl.trim()) {
+      toast.error('Please enter a webhook URL');
+      return;
+    }
+
+    setSendingToZapier(true);
+    try {
+      await base44.functions.invoke('sendToZapier', {
+        webhook_url: webhookUrl,
+        candidate_id: candidate.id,
+        include_interviews: true
+      });
+      
+      toast.success('Data sent to Zapier successfully');
+      setShowZapierDialog(false);
+      setWebhookUrl('');
+    } catch (error) {
+      console.error('Error sending to Zapier:', error);
+      toast.error('Failed to send to Zapier');
+    } finally {
+      setSendingToZapier(false);
+    }
+  };
 
   const handleDownloadPDF = async () => {
     setDownloadingPDF(true);
@@ -198,6 +228,45 @@ export default function CandidateScoreCard({ candidate, index }) {
               <Download className="w-4 h-4 mr-2" />
               {downloadingPDF ? 'Generating...' : 'Download PDF'}
             </Button>
+
+            <Dialog open={showZapierDialog} onOpenChange={setShowZapierDialog}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full justify-start"
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                  Send to Zapier
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Send to Zapier</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Webhook URL
+                    </label>
+                    <Input
+                      placeholder="https://hooks.zapier.com/hooks/catch/..."
+                      value={webhookUrl}
+                      onChange={(e) => setWebhookUrl(e.target.value)}
+                    />
+                    <p className="text-xs text-slate-500 mt-2">
+                      Paste your Zapier webhook URL. This will send candidate data and interviews.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleSendToZapier}
+                    disabled={sendingToZapier}
+                    className="w-full bg-amber-500 hover:bg-amber-600"
+                  >
+                    {sendingToZapier ? 'Sending...' : 'Send to Zapier'}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             {candidate.resume_file && (
               <Button
                 variant="outline"
