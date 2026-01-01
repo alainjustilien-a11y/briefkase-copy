@@ -4,53 +4,39 @@ import { createPageUrl } from "@/utils";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Mail, Send, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ExternalLink, Mail, Zap, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-
-const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/25549073/ukizo90/";
+import { base44 } from "@/api/base44Client";
 
 export default function PortfolioCard({ person, index }) {
   const [sendingToZapier, setSendingToZapier] = useState(false);
+  const [showZapierDialog, setShowZapierDialog] = useState(false);
+  const [webhookUrl, setWebhookUrl] = useState('');
 
   const handleSendToZapier = async () => {
+    if (!webhookUrl.trim()) {
+      toast.error('Please enter a webhook URL');
+      return;
+    }
+
     setSendingToZapier(true);
     try {
-      const payload = {
-        id: person.id,
-        full_name: person.full_name,
-        title: person.title,
-        email: person.email,
-        phone: person.phone,
-        photo_url: person.photo_url,
-        summary: person.summary,
-        resume_url: person.resume_url,
-        template: person.template,
-        skills: person.skills || [],
-        achievements: person.achievements || [],
-        hobbies: person.hobbies || [],
-        experience: person.experience || [],
-        education: person.education || [],
-        day_plan: person.day_plan || {},
-        case_study: person.case_study || {},
-        created_date: person.created_date,
-        updated_date: person.updated_date,
-        created_by: person.created_by,
-        portfolio_url: `${window.location.origin}/Portfolio?id=${person.id}`,
-      };
-
-      await fetch(ZAPIER_WEBHOOK_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      await base44.functions.invoke('sendPortfolioToZapier', {
+        webhook_url: webhookUrl,
+        portfolio_id: person.id
       });
-
-      toast.success(`Sent ${person.full_name}'s portfolio to Zapier!`);
+      
+      toast.success('Portfolio data sent to Zapier successfully');
+      setShowZapierDialog(false);
+      setWebhookUrl('');
     } catch (error) {
-      console.error('Zapier error:', error);
+      console.error('Error sending to Zapier:', error);
       toast.error('Failed to send to Zapier');
+    } finally {
+      setSendingToZapier(false);
     }
-    setSendingToZapier(false);
   };
 
   return (
@@ -101,20 +87,45 @@ export default function PortfolioCard({ person, index }) {
                 View Portfolio
               </Button>
             </Link>
-            <Button 
-              variant="outline" 
-              size="icon" 
-              className="rounded-xl border-slate-300"
-              onClick={handleSendToZapier}
-              disabled={sendingToZapier}
-              title="Send to Zapier"
-            >
-              {sendingToZapier ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Send className="w-4 h-4" />
-              )}
-            </Button>
+            <Dialog open={showZapierDialog} onOpenChange={setShowZapierDialog}>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="icon" 
+                  className="rounded-xl border-slate-300"
+                  title="Send to Zapier"
+                >
+                  <Zap className="w-4 h-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Send to Zapier</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Webhook URL
+                    </label>
+                    <Input
+                      placeholder="https://hooks.zapier.com/hooks/catch/..."
+                      value={webhookUrl}
+                      onChange={(e) => setWebhookUrl(e.target.value)}
+                    />
+                    <p className="text-xs text-slate-500 mt-2">
+                      Paste your Zapier webhook URL to send {person.full_name}'s portfolio data.
+                    </p>
+                  </div>
+                  <Button
+                    onClick={handleSendToZapier}
+                    disabled={sendingToZapier}
+                    className="w-full bg-amber-500 hover:bg-amber-600"
+                  >
+                    {sendingToZapier ? 'Sending...' : 'Send to Zapier'}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
             {person.email && (
               <a href={`mailto:${person.email}`}>
                 <Button variant="outline" size="icon" className="rounded-xl border-slate-300">
