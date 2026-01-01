@@ -38,6 +38,7 @@ Deno.serve(async (req) => {
             photo_url: portfolio.photo_url || "",
             summary: portfolio.summary || "",
             resume_url: portfolio.resume_url || "",
+            final_portfolio_pdf_url: portfolio.final_portfolio_pdf_url || "",
             template: portfolio.template || "",
             skills: portfolio.skills || [],
             achievements: portfolio.achievements || [],
