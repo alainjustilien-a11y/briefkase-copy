@@ -13,11 +13,12 @@ export default function CandidateScoreCard({ candidate, index }) {
   const handleDownloadPDF = async () => {
     setDownloadingPDF(true);
     try {
-      const { data } = await base44.functions.invoke('generateCareerBrief', {
+      const response = await base44.functions.invoke('generateCareerBrief', {
         candidate_id: candidate.id
       });
       
-      const blob = new Blob([data], { type: 'application/pdf' });
+      // The response.data contains the PDF as an ArrayBuffer
+      const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -30,7 +31,7 @@ export default function CandidateScoreCard({ candidate, index }) {
       toast.success('PDF downloaded successfully');
     } catch (error) {
       console.error('Error downloading PDF:', error);
-      toast.error('Failed to download PDF');
+      toast.error('Failed to download PDF. Please try again.');
     } finally {
       setDownloadingPDF(false);
     }
