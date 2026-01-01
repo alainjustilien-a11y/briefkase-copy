@@ -38,7 +38,6 @@ Deno.serve(async (req) => {
             photo_url: portfolio.photo_url || "",
             summary: portfolio.summary || "",
             resume_url: portfolio.resume_url || "",
-            final_portfolio_pdf_url: portfolio.final_portfolio_pdf_url || "",
             template: portfolio.template || "",
             skills: portfolio.skills || [],
             achievements: portfolio.achievements || [],
@@ -51,6 +50,11 @@ Deno.serve(async (req) => {
             updated_date: portfolio.updated_date,
             created_by: portfolio.created_by
         };
+
+        // Only include final_portfolio_pdf_url if it exists and is not empty
+        if (portfolio.final_portfolio_pdf_url) {
+            zapierPayload.final_portfolio_pdf_url = portfolio.final_portfolio_pdf_url;
+        }
 
         // Send to Zapier webhook
         const zapierResponse = await fetch(webhook_url, {
