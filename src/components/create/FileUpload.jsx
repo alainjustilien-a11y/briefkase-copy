@@ -32,7 +32,7 @@ export default function FileUpload({ resumeFile, setResumeFile, photoFile, setPh
               <input
                 ref={resumeInputRef}
                 type="file"
-                accept=".pdf"
+                accept=".pdf,.doc,.docx"
                 onChange={(e) => setResumeFile(e.target.files[0])}
                 className="hidden"
               />
@@ -56,7 +56,7 @@ export default function FileUpload({ resumeFile, setResumeFile, photoFile, setPh
                     </div>
                     <div>
                       <p className="font-semibold text-slate-900">Upload Resume</p>
-                      <p className="text-sm text-slate-600">PDF only</p>
+                      <p className="text-sm text-slate-600">PDF, DOC, DOCX</p>
                     </div>
                   </>
                 )}
