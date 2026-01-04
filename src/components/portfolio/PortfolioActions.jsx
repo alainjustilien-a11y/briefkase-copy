@@ -180,15 +180,44 @@ export default function PortfolioActions({ person, portfolioUrl }) {
   };
 
   const handleDownloadImages = async () => {
-    // Open the Summary View page which has all slides - user can screenshot from there
     const urlParams = new URLSearchParams(window.location.search);
     const personId = urlParams.get('id');
     
-    toast.info("Opening Summary View - use your browser or screenshot tool to capture images for Canva");
-    await trackDownload('images');
+    setDownloading(true);
+    setDownloadProgress("Generating portfolio images...");
+    setShowImagesDialog(true);
     
-    // Open summary view in new tab
-    window.open(`/PortfolioSummary?id=${personId}`, '_blank');
+    try {
+      const response = await base44.functions.invoke('capturePortfolioImages', { 
+        portfolio_id: personId 
+      });
+      
+      if (response.data.success && response.data.image_url) {
+        // If screenshot service generated an image
+        setGeneratedImages([{
+          url: response.data.image_url,
+          title: 'Full Portfolio',
+          index: 1
+        }]);
+        setDownloadProgress("Image generated!");
+        await trackDownload('images');
+        toast.success("Portfolio image generated!");
+      } else {
+        // Fallback: open summary view for manual screenshots
+        toast.info("Opening Summary View - use your browser or screenshot tool to capture images for Canva");
+        await trackDownload('images');
+        window.open(response.data.summary_url || `/PortfolioSummary?id=${personId}`, '_blank');
+        setShowImagesDialog(false);
+      }
+    } catch (error) {
+      console.error('Image generation error:', error);
+      toast.info("Opening Summary View - use your browser or screenshot tool to capture images");
+      await trackDownload('images');
+      window.open(`/PortfolioSummary?id=${personId}`, '_blank');
+      setShowImagesDialog(false);
+    }
+    
+    setDownloading(false);
   };
 
   const downloadAllImages = () => {
